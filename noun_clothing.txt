@@ -1,0 +1,19 @@
+skirt
+swim suit
+jumper
+hoodie
+vest
+handbag
+tank top
+polo shirt
+dress
+hawaiian shirt
+mittens
+socks
+trench coat
+winter coat
+straw hat
+cap
+scarf
+hat
+glove

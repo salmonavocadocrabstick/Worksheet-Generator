@@ -1,0 +1,32 @@
+avocado
+banana
+berry
+blackberry
+blueberry
+cantaloupe
+cherry
+coconut
+cranberry
+current
+dragon fruit
+durian
+kumquat
+lemon
+lime
+lychee
+mango
+melon
+orange
+papaya
+passion fruit
+peach
+pear
+persimmon
+pineapple
+plantain
+plum
+quince
+raisin
+raspberry
+star fruit
+strawberry
