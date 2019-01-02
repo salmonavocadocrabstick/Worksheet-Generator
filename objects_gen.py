@@ -5,17 +5,10 @@ import re
 from datetime import date
 
 
-def get_noun_list(noun_bank):
-	#noun_bank = "noun_bank.txt"
-
-	with open(noun_bank, "r") as nouns:
-		noun_list = nouns.read().split("\n")[:-2:]
-	#print(noun_list)
-	return noun_list
-
-
 def object(verb_type):
+	'''Rolls for singular / plural nouns, and branches into generating noun+adjs. Depending on the verb type, may return a slightly different string due to uncountable nouns.'''
 	decision = randint(1, 5)
+
 	if decision < 2:
 		#singular
 		if verb_type == "drink":
@@ -33,17 +26,25 @@ def object(verb_type):
 
 
 def noun_or_adj_noun(verb_type):
+	'''Rolls for adj or adj + noun. Branches into phrase_generate. 1 parameter required, but used in this function. It is passed intwo phrase_generate'''
 	decision = randint(1, 100)
 	if decision % 2 == 0:
-		#return noun_only(verb_type)		#noun only
-		return phrase_generate(verb_type)
+		return phrase_generate(verb_type)		#No adjectives
 	else:
-		#return adj_noun(verb_type)		#return adj_noun
-		#print("Adj and Noun")
-		return phrase_generate(verb_type, True)
+		return phrase_generate(verb_type, True)	#Adjectives + noun
+
+
+def get_noun_list(noun_bank):
+	'''Returns a designated (pre-scraped) noun list as a long list'''
+	with open(noun_bank, "r") as nouns:
+		noun_list = nouns.read().split("\n")[:-2:]
+	return noun_list
+
+
 
 def phrase_generate(verb_type, adjective=False):
-	question_type = {
+	'''Takes a key, and grabs corresponding txt file to generate a phrase of adj or adj + nouns. Note that adjectives are defaulting to False.'''
+	noun_file_names = {
 
 		"food":		"noun_food.txt", 		# eat
 		"drink" :	"noun_drinks.txt", 		# drink
@@ -51,16 +52,17 @@ def phrase_generate(verb_type, adjective=False):
 		"clothes":	"noun_clothing.txt"		# wear / put on / hold / wash
 	}
 
-	nouns = get_noun_list(question_type.get(verb_type, ""))
-	#print(nouns)
+	nouns = get_noun_list(noun_file_names.get(verb_type, ""))
 
 	if not adjective:
 		return f"{choice(nouns)}"
 	else:
 		return f"{adj_generate(verb_type)} {choice(nouns) }"
 
+
 def adj_generate(verb_type):
-	adjectives = {
+	'''Takes a key, and grabs random choice from the corresponding list of adjectives'''
+	adjective_list = {
 
 		"food": 		["warm", "sweet", "sour", "bitter", "awful", "delicious"],
 		"drink":		["sparkly", "delicious", "salty", "colorful-looking", "green"],
@@ -69,9 +71,7 @@ def adj_generate(verb_type):
 
 	}
 
-	#adjective = choice(adjectives.get(verb_type,""))
-	#print(adjective)
-	return f"{choice(adjectives.get(verb_type,''))}"
+	return f"{choice(adjective_list.get(verb_type,''))}"
 
 
 

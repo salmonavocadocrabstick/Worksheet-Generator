@@ -3,33 +3,37 @@ import requests
 import re
 
 def get_noun_list():
-	timestamp = "time_record.txt"
-	noun_bank = "noun_bank.txt"
+	''' Does not run by default. URLs and corresponding CSS tags needs to be updated before executing.
+		A chunk of code is blocked out. Originally intended for frequent scraping. But after I finished the whole project,
+		I reckon that it's not necessary for a kiddo's worksheet to continuously harass websites.
+	'''
 
-	today = date.today()
-	need_to_scrape = False
+	# timestamp = "time_record.txt"
+	# noun_bank = "noun_bank.txt"
+
+	# today = date.today()
+	# need_to_scrape = False
 
 
-	try:
-		with open(timestamp, "r+") as time_file:
-			last_time = time_file.read()
-			last_time = last_time.split("-")
-			#print(last_time)
-			if date(today.year, today.month, 28) > date(int(last_time[0]), int(last_time[1]), 28):
-				time_file.seek(0)
-				time_file.write(str(today))
-				#need_to_scrape = True
-				scrape_noun_list()
-	except FileNotFoundError:
+	# try:
+	# 	with open(timestamp, "r+") as time_file:
+	# 		last_time = time_file.read()
+	# 		last_time = last_time.split("-")
+	# 		#print(last_time)
+	# 		if date(today.year, today.month, 28) > date(int(last_time[0]), int(last_time[1]), 28):
+	# 			time_file.seek(0)
+	# 			time_file.write(str(today))
+	# 			#need_to_scrape = True
+	# 			scrape_noun_list()
+	# except FileNotFoundError:
 		scrape_noun_list()
-	finally:
-		pass
+	# finally:
+	# 	pass
 
 
 	with open(noun_bank, "r") as nouns:
 		noun_list = nouns.read().split(" ")[:-2:]
 
-	return noun_list
 
 def scrape_noun_list(noun_url, noun_bank):
 
@@ -37,7 +41,6 @@ def scrape_noun_list(noun_url, noun_bank):
 
 
 	soup = BeautifulSoup(res.text, "html.parser")
-			# nouns = soup.find(class_="item-page").select("p")[firstword].get_text()
 
 	#CHANGE HERE TO FIND THE RIGHT ITEM
 	records = soup.find_all(class_="wordlist-item")
@@ -53,6 +56,8 @@ def scrape_noun_list(noun_url, noun_bank):
 				#regex_word = pattern.sub("\g<1>", records[word].get_text())
 				regex_word = records[word].get_text()
 				noun_file.write(regex_word + "\n")
+
+
 
 
 noun_url = "https://www.enchantedlearning.com/wordlist/fruit.shtml"
