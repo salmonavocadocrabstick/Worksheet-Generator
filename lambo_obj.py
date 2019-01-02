@@ -4,33 +4,53 @@ import requests
 import re
 from datetime import date
 
-nouns = 	[
-				"jacket",
-				"jumper",
-				"sneaker",
-				"sunglasses",
-				"skirt",
-				"bracelet",
-				"ring",
-				"egg",
-				"juice"
-			]
+
+def get_noun_list():
+	timestamp = "time_record.txt"
+	noun_bank = "noun_bank.txt"
+
+	today = date.today()
+	need_to_scrape = False
 
 
-adjectives = [
-				"warm",
-				"cozy",
-				"comfortable",
-				"lovely",
-				"beautiful",
-				"sparkly",
-				"fun-looking",
-				"white",
-				"blue",
-				"red"
-			]
+	try:
+		with open(timestamp, "r+") as time_file:
+			last_time = time_file.read()
+			last_time = last_time.split("-")
+			#print(last_time)
+			if date(today.year, today.month, 28) > date(int(last_time[0]), int(last_time[1]), 28):
+				time_file.seek(0)
+				time_file.write(str(today))
+				#need_to_scrape = True
+				scrape_noun_list()
+	except FileNotFoundError:
+		scrape_noun_list()
+	finally:
+		pass
 
-pract_str=""
+
+	with open(noun_bank, "r") as nouns:
+		noun_list = nouns.read().split(" ")[:-2:]
+
+	return noun_list
+
+def scrape_noun_list():
+	noun_url = "https://stickyball.net/esl-grammar-worksheets.html?id=85"
+	res = requests.get(noun_url)
+
+
+	soup = BeautifulSoup(res.text, "html.parser")
+			# nouns = soup.find(class_="item-page").select("p")[firstword].get_text()
+	records = soup.find(class_="item-page").select("p")
+	pattern = re.compile(r"^[0-9]{1,3}\.\s(\b[a-z]*\b$)")
+
+	with open(noun_bank, "w") as noun_file:
+		for word in range(2, len(records)-1):
+			match = pattern.search(records[word].get_text())
+			if match:
+				regex_word = pattern.sub("\g<1>", records[word].get_text())
+				noun_file.write(regex_word + " ")
+
 
 def object():
 	decision = randint(1, 5)
@@ -48,58 +68,32 @@ def noun_or_adj_noun():
 		return adj_noun()		#return adj_noun
 
 def noun_only():
+	nouns = get_noun_list()
 	return f"{choice(nouns)}"
 
 def adj_noun():
+	adjectives = [
+				"warm",
+				"cozy",
+				"comfortable",
+				"lovely",
+				"beautiful",
+				"sparkly",
+				"fun-looking",
+				"white",
+				"blue",
+				"red"
+			]
+	nouns = get_noun_list()
 	return f"{choice(adjectives)} {choice(nouns)}"
 
 
-timestamp = "time_record.txt"
-noun_bank = "noun_bank.txt"
-
-today = date.today()
-need_to_scrape = False
-
-try:
-	with open(timestamp, "r+") as time_file:
-		last_time = time_file.read()
-		last_time = last_time.split("-")
-		#print(last_time)
-		if date(today.year, today.month, 28) > date(int(last_time[0]), int(last_time[1]), 28):
-			time_file.seek(0)
-			time_file.write(str(today))
-			need_to_scrape = True
-
-except FileNotFoundError:
-	pass
-
-if need_to_scrape:
-
-	noun_url = "https://stickyball.net/esl-grammar-worksheets.html?id=85"
-	res = requests.get(noun_url)
-
-
-	soup = BeautifulSoup(res.text, "html.parser")
-			# nouns = soup.find(class_="item-page").select("p")[firstword].get_text()
-	records = soup.find(class_="item-page").select("p")
-	text_only = []
-	pattern = re.compile(r"^[0-9]{1,3}\.\s(\b[a-z]*\b$)")
-
-	with open(noun_bank, "w") as noun_file:
-		for word in range(2, len(records)-1):
-			match = pattern.search(records[word].get_text())
-			if match:
-				regex_word = pattern.sub("\g<1>", records[word].get_text())
-				#text_only.append(regex_word)
-				noun_file.write(regex_word)
-				noun_file.write("\n")
 
 
 
 
 
 
-#print(text_only)
 
 
 
