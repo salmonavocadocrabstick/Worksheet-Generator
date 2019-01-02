@@ -7,6 +7,9 @@ def present_tense_keyword():
 		"every year",
 		"often",
 		"every Friday",
+		"all the time",
+		"every weekend",
+		"once a month",
 		"every Monday"
 
 	]
