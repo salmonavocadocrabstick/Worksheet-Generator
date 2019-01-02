@@ -168,14 +168,17 @@ def adj_noun():
 #noun_url = "https://stickyball.net/esl-grammar-worksheets.html?id=85"
 #es = requests.get(noun_url)
 soup = BeautifulSoup(pract_str, "html.parser")
-# print(soup.get_text())
-# nouns = soup.find(class_="item-page").select("p")[2]
-#print(nouns.get_text(strip=True))
-#word = 2
 # nouns = soup.find(class_="item-page").select("p")[firstword].get_text()
 records = soup.find(class_="item-page").select("p")
 words_only = []
 for word in range(2, len(records)-1):
 	words_only.append(records[word].get_text())
 
-print(words_only)
+pattern = re.compile(r"^[0-9]{1,3}\.\s\b[a-z]+\b")
+
+for word in words_only:
+	match = pattern.search(word)
+	if match:
+		print("True")
+	else:
+		print("False")
