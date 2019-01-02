@@ -12,57 +12,38 @@ def get_noun_list(noun_bank):
 		noun_list = nouns.read().split("\n")[:-2:]
 	return noun_list
 
-def scrape_noun_list():
-	noun_url = "https://stickyball.net/esl-grammar-worksheets.html?id=85"
-	res = requests.get(noun_url)
 
-
-	soup = BeautifulSoup(res.text, "html.parser")
-			# nouns = soup.find(class_="item-page").select("p")[firstword].get_text()
-	records = soup.find(class_="item-page").select("p")
-	pattern = re.compile(r"^[0-9]{1,3}\.\s(\b[a-z]*\b$)")
-
-	with open(noun_bank, "w") as noun_file:
-		for word in range(2, len(records)-1):
-			match = pattern.search(records[word].get_text())
-			if match:
-				regex_word = pattern.sub("\g<1>", records[word].get_text())
-				noun_file.write(regex_word + " ")
-
-
-def object():
+def object(verb_type):
 	decision = randint(1, 5)
 	if decision < 2:
 		#singular
-		return f"a {noun_or_adj_noun()}"
+		return f"a {noun_or_adj_noun(verb_type)}"
 	else:
 		#plural
-		return f"{decision} {noun_or_adj_noun()}s"
+		return f"{decision} {noun_or_adj_noun(verb_type)}s"
 
 
-def noun_or_adj_noun():
+def noun_or_adj_noun(verb_type):
 	decision = randint(1, 100)
 	if decision % 2 == 0:
-		return noun_only()		#noun only
+		return noun_only(verb_type)		#noun only
 	else:
-		return adj_noun()		#return adj_noun
+		return adj_noun(verb_type)		#return adj_noun
 
-def noun_only():
-	question_type = [
+def noun_only(verb_type):
+	question_type = {
 
-		"noun_food.txt" 		# eat
-		"noun_drink.txt", 		# drink
-		"noun_appliance.txt", 	# break / carry / hold / sit on
-		"noun_clothing.txt"		# wear / put on / hold / wash
+		"food":		"noun_food.txt", 		# eat
+		"drink" :	"noun_drinks.txt", 		# drink
+		"appliance":"noun_appliance.txt", 	# break / carry / hold / sit on
+		"clothes":	"noun_clothing.txt"		# wear / put on / hold / wash
 
-	]
-			
-	this_question = choice(question_type)
+	}
 
-	nouns = get_noun_list(this_question)
+	nouns = get_noun_list(question_type.get(verb_type, ""))
 	return f"{choice(nouns)}"
 
-def adj_noun():
+def adj_noun(verb_type):
 	adjectives = [
 				"warm",
 				"cozy",
@@ -75,7 +56,17 @@ def adj_noun():
 				"blue",
 				"red"
 			]
-	nouns = get_noun_list()
+
+	question_type = {  
+
+		"food":		"noun_food.txt", 		# eat
+		"drink" :	"noun_drinks.txt", 		# drink
+		"appliance":"noun_appliance.txt", 	# break / carry / hold / sit on
+		"clothes":	"noun_clothing.txt"		# wear / put on / hold / wash
+
+	}
+	#this_question = choice(question_type)
+	nouns = get_noun_list(question_type.get(verb_type, ""))
 	return f"{choice(adjectives)} {choice(nouns)}"
 
 
