@@ -12,9 +12,7 @@ verbs = {
 
 def verb():
 	key = choice(list(verbs))
-
 	#return { str(key) : choice(verbs.get(key, ""))}
 	return [str(key), choice(verbs.get(key, ""))]
 	# f"{choice(verbs)}"
 
-print(verb())

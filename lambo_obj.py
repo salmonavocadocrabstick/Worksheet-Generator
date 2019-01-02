@@ -10,6 +10,7 @@ def get_noun_list(noun_bank):
 
 	with open(noun_bank, "r") as nouns:
 		noun_list = nouns.read().split("\n")[:-2:]
+	#print(noun_list)
 	return noun_list
 
 
@@ -17,57 +18,60 @@ def object(verb_type):
 	decision = randint(1, 5)
 	if decision < 2:
 		#singular
-		return f"a {noun_or_adj_noun(verb_type)}"
+		if verb_type == "drink":
+			return f"a bottle of {noun_or_adj_noun(verb_type)} juice"
+		else:
+			return f"a {noun_or_adj_noun(verb_type)}"
+
+
 	else:
 		#plural
-		return f"{decision} {noun_or_adj_noun(verb_type)}s"
+		if verb_type == "drink":
+			return f"{decision} cups of {noun_or_adj_noun(verb_type)} juice"
+		else:
+			return f"{decision} {noun_or_adj_noun(verb_type)}s"
 
 
 def noun_or_adj_noun(verb_type):
 	decision = randint(1, 100)
 	if decision % 2 == 0:
-		return noun_only(verb_type)		#noun only
+		#return noun_only(verb_type)		#noun only
+		return phrase_generate(verb_type)
 	else:
-		return adj_noun(verb_type)		#return adj_noun
+		#return adj_noun(verb_type)		#return adj_noun
+		#print("Adj and Noun")
+		return phrase_generate(verb_type, True)
 
-def noun_only(verb_type):
+def phrase_generate(verb_type, adjective=False):
 	question_type = {
 
 		"food":		"noun_food.txt", 		# eat
 		"drink" :	"noun_drinks.txt", 		# drink
 		"appliance":"noun_appliance.txt", 	# break / carry / hold / sit on
 		"clothes":	"noun_clothing.txt"		# wear / put on / hold / wash
-
 	}
 
 	nouns = get_noun_list(question_type.get(verb_type, ""))
-	return f"{choice(nouns)}"
+	#print(nouns)
 
-def adj_noun(verb_type):
-	adjectives = [
-				"warm",
-				"cozy",
-				"comfortable",
-				"lovely",
-				"beautiful",
-				"sparkly",
-				"fun-looking",
-				"white",
-				"blue",
-				"red"
-			]
+	if not adjective:
+		return f"{choice(nouns)}"
+	else:
+		return f"{adj_generate(verb_type)} {choice(nouns) }"
 
-	question_type = {  
+def adj_generate(verb_type):
+	adjectives = {
 
-		"food":		"noun_food.txt", 		# eat
-		"drink" :	"noun_drinks.txt", 		# drink
-		"appliance":"noun_appliance.txt", 	# break / carry / hold / sit on
-		"clothes":	"noun_clothing.txt"		# wear / put on / hold / wash
+		"food": 		["warm", "sweet", "sour", "bitter", "awful", "delicious"],
+		"drink":		["sparkly", "delicious", "salty", "colorful-looking", "green"],
+		"appliance":	["comfortable", "beautiful", "fun-looking",],
+		"clothes":		["beautiful", "warm", "cozy", "sparkly", "lovely", "white", "blue", "red"]
 
 	}
-	#this_question = choice(question_type)
-	nouns = get_noun_list(question_type.get(verb_type, ""))
-	return f"{choice(adjectives)} {choice(nouns)}"
+
+	#adjective = choice(adjectives.get(verb_type,""))
+	#print(adjective)
+	return f"{choice(adjectives.get(verb_type,''))}"
 
 
 
