@@ -73,24 +73,26 @@ try:
 except FileNotFoundError:
 	pass
 
+if need_to_scrape:
 
-noun_url = "https://stickyball.net/esl-grammar-worksheets.html?id=85"
-res = requests.get(noun_url)
+	noun_url = "https://stickyball.net/esl-grammar-worksheets.html?id=85"
+	res = requests.get(noun_url)
 
 
-soup = BeautifulSoup(res.text, "html.parser")
-		# nouns = soup.find(class_="item-page").select("p")[firstword].get_text()
-records = soup.find(class_="item-page").select("p")
-text_only = []
-pattern = re.compile(r"^[0-9]{1,3}\.\s(\b[a-z]*\b$)")
+	soup = BeautifulSoup(res.text, "html.parser")
+			# nouns = soup.find(class_="item-page").select("p")[firstword].get_text()
+	records = soup.find(class_="item-page").select("p")
+	text_only = []
+	pattern = re.compile(r"^[0-9]{1,3}\.\s(\b[a-z]*\b$)")
 
-with open(noun_bank, "w") as noun_file:
-	for word in range(2, len(records)-1):
-		match = pattern.search(records[word].get_text())
-		if match:
-			regex_word = pattern.sub("\g<1>", records[word].get_text())
-			#text_only.append(regex_word)
-			noun_file.write(regex_word)
+	with open(noun_bank, "w") as noun_file:
+		for word in range(2, len(records)-1):
+			match = pattern.search(records[word].get_text())
+			if match:
+				regex_word = pattern.sub("\g<1>", records[word].get_text())
+				#text_only.append(regex_word)
+				noun_file.write(regex_word)
+				noun_file.write("\n")
 
 
 
