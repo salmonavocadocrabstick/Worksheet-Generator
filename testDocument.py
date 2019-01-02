@@ -1,7 +1,7 @@
 import lambo_obj as obj
 import lambo_verb as vrb
 import lambo_sub as subj
-import presentTense as pre
+import present_keywords as pre
 
 
 from docx import Document
