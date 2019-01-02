@@ -5,33 +5,11 @@ import re
 from datetime import date
 
 
-def get_noun_list():
-	timestamp = "time_record.txt"
-	noun_bank = "noun_bank.txt"
-
-	today = date.today()
-	need_to_scrape = False
-
-
-	try:
-		with open(timestamp, "r+") as time_file:
-			last_time = time_file.read()
-			last_time = last_time.split("-")
-			#print(last_time)
-			if date(today.year, today.month, 28) > date(int(last_time[0]), int(last_time[1]), 28):
-				time_file.seek(0)
-				time_file.write(str(today))
-				#need_to_scrape = True
-				scrape_noun_list()
-	except FileNotFoundError:
-		scrape_noun_list()
-	finally:
-		pass
-
+def get_noun_list(noun_bank):
+	#noun_bank = "noun_bank.txt"
 
 	with open(noun_bank, "r") as nouns:
-		noun_list = nouns.read().split(" ")[:-2:]
-
+		noun_list = nouns.read().split("\n")[:-2:]
 	return noun_list
 
 def scrape_noun_list():
@@ -55,8 +33,10 @@ def scrape_noun_list():
 def object():
 	decision = randint(1, 5)
 	if decision < 2:
+		#singular
 		return f"a {noun_or_adj_noun()}"
 	else:
+		#plural
 		return f"{decision} {noun_or_adj_noun()}s"
 
 
@@ -68,7 +48,18 @@ def noun_or_adj_noun():
 		return adj_noun()		#return adj_noun
 
 def noun_only():
-	nouns = get_noun_list()
+	question_type = [
+
+		"noun_food.txt" 		# eat
+		"noun_drink.txt", 		# drink
+		"noun_appliance.txt", 	# break / carry / hold / sit on
+		"noun_clothing.txt"		# wear / put on / hold / wash
+
+	]
+			
+	this_question = choice(question_type)
+
+	nouns = get_noun_list(this_question)
 	return f"{choice(nouns)}"
 
 def adj_noun():
