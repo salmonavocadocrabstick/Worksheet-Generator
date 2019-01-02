@@ -1,26 +1,19 @@
-Skirt
-Bikini
-Dress pants
-Jumper
-Sneakers
-Hoodie
-Vest
-High heels
-Flip flops
-Handbag
-Tank top
-Singlet
-Boots
-Shorts
-Polo shirt
-Umbrella
-Dress
-Hawaiian shirt
-Mittens
-Socks
-Swimsuit
-Trench coat
-Winter coat
-Straw hat
-Cap
-Scarf
+skirt
+swim suit
+jumper
+hoodie
+vest
+handbag
+tank top
+polo shirt
+dress
+hawaiian shirt
+mittens
+socks
+trench coat
+winter coat
+straw hat
+cap
+scarf
+hat
+glove

@@ -16,7 +16,7 @@ instruction = [
 
 				]
 doc_instru = instruction[0]
-num_questions = 10
+num_questions = 20
 
 
 document = Document()
@@ -34,8 +34,12 @@ document.add_heading(doc_instru, level=1)
 
 
 for x in range(1, num_questions+1):
-	adj_noun = obj.object()
-	verb = vrb.verb()
+	verb_list = vrb.verb()
+	verb = verb_list[1]
+	#print(verb)
+	adj_noun = obj.object(verb_list[0])
+	#print(adj_noun)
+	
 	subject = subj.subject()
 	keyword = pre.present_tense_keyword()
 
