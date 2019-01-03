@@ -1,6 +1,6 @@
-import lambo_obj as obj
-import lambo_verb as vrb
-import lambo_sub as subj
+import objects_gen as obj
+import verbs_gen as vrb
+import subjects_gen as subj
 import present_keywords as pre
 
 
