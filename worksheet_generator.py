@@ -1,7 +1,7 @@
 import objects_gen as obj
 import verbs_gen as vrb
 import subjects_gen as subj
-import present_keywords as pre
+import pre_keywords_gen as pre
 
 
 from docx import Document
