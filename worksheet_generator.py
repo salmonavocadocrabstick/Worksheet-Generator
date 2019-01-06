@@ -1,7 +1,7 @@
 import objects_gen as obj
 import verbs_gen as vrb
 import subjects_gen as subj
-import pre_keywords_gen as pre
+import pres_keywords_gen as pre
 
 
 from docx import Document
@@ -53,3 +53,5 @@ for x in range(1, num_questions+1):
 
 document.add_page_break()
 document.save(f"{doc_title}_{date.today()}.docx")
+
+print(f"Worksheet {doc_title}_{date.today()}.docx is generated in designated folder.")
