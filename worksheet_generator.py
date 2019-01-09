@@ -13,9 +13,10 @@ doc_title = "Verbs"
 instruction = [
 					"Fill in the blanks with the correct verb.", #0
 					"Fill in the blanks with the correct noun."
+					"Rearrange the sentences into the correct order."
 
 				]
-doc_instru = instruction[0]
+doc_instru = instruction[2]
 num_questions = 10
 
 
@@ -37,7 +38,7 @@ for x in range(1, num_questions+1):
 	verb_list = vrb.verb()
 	verb = verb_list[1]
 	#print(verb)
-	adj_noun = obj.object(verb_list[0])
+	adj_noun = obj.object(verb_list[0], 1) #stop s being added to nouns
 	#print(adj_noun)
 	
 	subject = subj.subject()
@@ -47,6 +48,9 @@ for x in range(1, num_questions+1):
 	p = document.add_paragraph(f"{x}. {subject} ", style = "Normal")
 	p.add_run("______________").font.name = "Comic Sans"
 	p.add_run(f"({verb}) {adj_noun} {keyword}.")
+
+	# p = document.add_paragraph(f"{x}. {subject} {verb} ", style = "Normal")
+
 
 
 	#document.add_paragraph(this_question, style='Normal')

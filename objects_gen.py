@@ -3,10 +3,11 @@ from bs4 import BeautifulSoup
 import requests
 import re
 from datetime import date
+import nouns_gen as noun
 
-
-def object(verb_type):
+def object(verb_type, decision=-99):
 	'''Rolls for singular / plural nouns, and branches into generating noun+adjs. Depending on the verb type, may return a slightly different string due to uncountable nouns.'''
+	if decision == -99:
 	decision = randint(1, 5)
 
 	if decision < 2:
@@ -34,13 +35,6 @@ def noun_or_adj_noun(verb_type):
 		return phrase_generate(verb_type, True)	#Adjectives + noun
 
 
-def get_noun_list(noun_bank):
-	'''Returns a designated (pre-scraped) noun list as a long list'''
-	with open(noun_bank, "r") as nouns:
-		noun_list = nouns.read().split("\n")[:-2:]
-	return noun_list
-
-
 
 def phrase_generate(verb_type, adjective=False):
 	'''Takes a key, and grabs corresponding txt file to generate a phrase of adj or adj + nouns. Note that adjectives are defaulting to False.'''
@@ -52,7 +46,7 @@ def phrase_generate(verb_type, adjective=False):
 		"clothes":	"noun_clothing.txt"		# wear / put on / hold / wash
 	}
 
-	nouns = get_noun_list(noun_file_names.get(verb_type, ""))
+	nouns = noun.get_noun_list(noun_file_names.get(verb_type, ""))
 
 	if not adjective:
 		return f"{choice(nouns)}"
