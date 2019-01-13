@@ -79,6 +79,7 @@ class SentenceBuilder(Builder):
 	def set_noun(self):
 		if self.sentence.verb:
 			self.sentence.noun = objects_gen.phrase_generate(self.sentence.verb[0])
+		return self
 
 
 class FillInTheBlanksNounsBuilder():
@@ -88,6 +89,7 @@ class FillInTheBlanksNounsBuilder():
 
 test = SentenceBuilder().set_subj_name().set_verb().set_noun()
 
-
-
-
+print(test.sentence.subj.subjects[1])
+print(test.sentence.subj.number_of_people)
+print(test.sentence.verb[1])
+print(test.sentence.noun)

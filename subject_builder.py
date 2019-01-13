@@ -18,7 +18,7 @@ class SubjectBuilder:
 class PronounBuilder(SubjectBuilder):
 	def __init__(self, number_of_people=0):
 		super().__init__(number_of_people)
-		self.subjects.append(Pronoun(choice(pronoun_list.get_list())))
+		self.subjects.append(Pronoun(choice(pronoun_list.get_list())).get_name())
 		if self.subjects[0] == "He" or  self.subjects[0] == "She" or self.subjects[0] == "It":
 			number_of_people = 1 #Marking 
 
@@ -27,25 +27,14 @@ class NameBuilder(SubjectBuilder):
 		super().__init__(number_of_people)
 		self._count = 0
 		if number_of_people > 0:
-				#2: x and y
-					while self._count != number_of_people:
-						self.subjects.append(Name(choice(name_list.get_list())))
-						self._count += 1
+			#2: x and y
+			while self._count != number_of_people:
+				self.subjects.append(Name(choice(name_list.get_list())).get_name())
+				self._count += 1
 
 
-
-
-# pronoun = 0
-# name = 1
-# test1 = SubjectBuilder(pronoun)
+# test = PronounBuilder()
+# print(test.subjects[0])
+# test1 = NameBuilder(2)
 # print(test1.subjects[0])
-
-# test2 = SubjectBuilder(name, 3)
-# print(test2.subjects[0].name)
-# print(test2.subjects[1].name)
-# print(test2.subjects[2].name)
-
-test1 = PronounBuilder()
-print(test1)
-test2 = NameBuilder(2)
-print(test2)
+# print(test1.subjects[1])
