@@ -8,7 +8,7 @@ import nouns_gen as noun
 def object(verb_type, decision=-99):
 	'''Rolls for singular / plural nouns, and branches into generating noun+adjs. Depending on the verb type, may return a slightly different string due to uncountable nouns.'''
 	if decision == -99:
-	decision = randint(1, 5)
+		decision = randint(1, 5)
 
 	if decision < 2:
 		#singular
