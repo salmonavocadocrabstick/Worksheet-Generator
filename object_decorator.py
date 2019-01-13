@@ -1,4 +1,4 @@
-# Objects Builder
+# Objects - Decorator Pattern
 # 
 # Stephanie Leung (2019)
 from random import choice
@@ -59,8 +59,8 @@ class Color(AdjectiveDecorator):
 		return adj_gen.color_adj_generator(self.item_type)
 
 
-test1 = Noun("food")
-print(test1.noun)
+# test1 = Noun("food")
+# print(test1.noun)
 
-adj1 = Color(test1, test1.get_type())
-print(adj1.get_adj() + test1.noun)
+# adj1 = Color(test1, test1.get_type())
+# print(adj1.get_adj() + test1.noun)
