@@ -1,4 +1,6 @@
-
+# Generate nouns
+#
+# Stephanie Leung (2019)
 
 def get_noun_list(noun_bank):
 	'''Returns a designated (pre-scraped) noun list as a long list'''

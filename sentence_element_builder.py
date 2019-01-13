@@ -81,15 +81,21 @@ class SentenceBuilder(Builder):
 			self.sentence.noun = objects_gen.phrase_generate(self.sentence.verb[0])
 		return self
 
+	def set_adjective(self):
+		pass
+
 
 class FillInTheBlanksNounsBuilder():
 	def make_FIB():
 		return SentenceBuilder
 
 
-test = SentenceBuilder().set_subj_name().set_verb().set_noun()
+sentenceBlder = SentenceBuilder().set_subj_name().set_verb().set_noun()
+test = sentenceBlder.sentence
 
-print(test.sentence.subj.subjects[1])
-print(test.sentence.subj.number_of_people)
-print(test.sentence.verb[1])
-print(test.sentence.noun)
+print(f"{test.subj.subjects[0]} {test.verb[1]} {test.noun}")
+
+# print(test.sentence.subj.subjects[1])
+# print(test.sentence.subj.number_of_people)
+# print(test.sentence.verb[1])
+# print(test.sentence.noun)
