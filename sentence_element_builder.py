@@ -2,9 +2,10 @@
 #
 # Stephanie Leung (2019)
 import subject_builder as subj_bd
+import object_decorator as obj_dc
 from random import randint, choice
 import verbs_gen
-import objects_gen
+
 
 class Sentence:
 	def __init__(self, subj="", verb="", adj="", noun="", q_word="", question="", keyword=""):
@@ -34,6 +35,7 @@ class Builder:
 	def set_adjective(self):
 		pass
 
+	@classmethod
 	def set_noun(self):
 		pass
 
@@ -78,11 +80,14 @@ class SentenceBuilder(Builder):
 
 	def set_noun(self):
 		if self.sentence.verb:
-			self.sentence.noun = objects_gen.phrase_generate(self.sentence.verb[0])
+			self.sentence.noun = obj_dc.get_noun(self.sentence.verb[0])
 		return self
 
 	def set_adjective(self):
-		pass
+		if self.sentence.verb:
+			if self.sentence.noun:
+				self.sentence.adj = obj_dc.get_adjective(self.sentence.verb[0])
+		return self
 
 
 class FillInTheBlanksNounsBuilder():
@@ -90,12 +95,8 @@ class FillInTheBlanksNounsBuilder():
 		return SentenceBuilder
 
 
-sentenceBlder = SentenceBuilder().set_subj_name().set_verb().set_noun()
+sentenceBlder = SentenceBuilder().set_subj_name().set_verb().set_noun().set_adjective()
 test = sentenceBlder.sentence
 
-print(f"{test.subj.subjects[0]} {test.verb[1]} {test.noun}")
+print(f"{test.subj.subjects[0]} {test.verb[1]} {test.adj} {test.noun}")
 
-# print(test.sentence.subj.subjects[1])
-# print(test.sentence.subj.number_of_people)
-# print(test.sentence.verb[1])
-# print(test.sentence.noun)

@@ -25,5 +25,5 @@ def noun_generate(item_type):
 
 	nouns = get_noun_list(noun_file_names.get(item_type, ""))
 
-	return f"{choice(nouns)}"
+	return choice(nouns)
 
