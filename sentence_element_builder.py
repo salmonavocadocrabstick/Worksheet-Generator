@@ -8,14 +8,13 @@ import verbs_gen
 
 
 class Sentence:
-	def __init__(self, subj="", verb="", adj="", noun="", q_word="", question="", keyword=""):
+	def __init__(self, subj="", verb="", adj="", noun="", q_word=""):
 		self.subj = subj
 		self.verb = verb
 		self.adj = adj
 		self.noun = noun
 		self.q_word = q_word
-		self.question = question
-		self.keyword = keyword
+		#self.keyword = keyword
 
 
 class Builder:
@@ -32,11 +31,11 @@ class Builder:
 		pass
 
 	@classmethod
-	def set_adjective(self):
+	def set_noun(self):
 		pass
 
 	@classmethod
-	def set_noun(self):
+	def set_adjective(self):
 		pass
 
 	def set_plural(self):
