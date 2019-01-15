@@ -30,48 +30,6 @@ class SentenceObject:
 	def get_num_subj(self):
 		return self.num_subj
 
-# class Builder:
-
-# 	def get_result(self):
-# 		pass
-
-# 	@classmethod
-# 	def set_subj(self):
-# 		pass
-
-# 	@classmethod
-# 	def set_verb(self):
-# 		pass
-
-# 	@classmethod
-# 	def set_noun(self):
-# 		pass
-
-# 	@classmethod
-# 	def set_adjective(self):
-# 		pass
-
-# 	def set_plural(self):
-# 		pass
-
-# 	def set_question_word(self):
-# 		pass
-
-# 	def set_question(self, value):
-# 		pass
-
-# 	def set_statement(self, value):
-# 		pass
-
-# 	def set_fill_in_blanks(self, value):
-# 		pass
-
-# 	def set_tenses(self, value):
-# 		pass
-
-# 	def set_keywords(self):
-# 		pass
-
 
 class SentenceObjectBuilder():
 	def __init__(self):
@@ -85,8 +43,6 @@ class SentenceObjectBuilder():
 		else:
 			self.sentence.num_subj = 1 #1/19: disabling for now randint(1,3)	#Unlikely needing more than 3 people, like, ever...
 			self.sentence.subj = subj_bd.NameBuilder(self.sentence.num_subj)
-
-		#print(f" !! SOB: {self.sentence.num_subj } !! ")
 		return self
 
 	def set_verb(self):

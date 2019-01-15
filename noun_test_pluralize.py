@@ -7,3 +7,5 @@ infl = inflect.engine()
 
 print(infl.plural("kiss"))
 print(infl.plural("tomato"))
+
+print(infl.plural)

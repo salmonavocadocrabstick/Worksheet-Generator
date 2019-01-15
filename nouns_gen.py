@@ -11,8 +11,6 @@ def get_noun_list(noun_bank):
 		noun_list = nouns.read().split("\n")[:-2:]
 	return noun_list
 
-
-
 def noun_generate(item_type):
 	'''Takes a key, and grabs corresponding txt file to generate a phrase of adj or adj + nouns. Note that adjectives are defaulting to False.'''
 	noun_file_names = {
@@ -25,5 +23,5 @@ def noun_generate(item_type):
 
 	nouns = get_noun_list(noun_file_names.get(item_type, ""))
 
-	return choice(nouns)
+	return [choice(nouns)]
 

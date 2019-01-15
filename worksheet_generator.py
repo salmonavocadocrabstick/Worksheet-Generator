@@ -2,6 +2,8 @@ import objects_gen as obj
 import verbs_gen as vrb
 import subjects_gen as subj
 import pres_keywords_gen as pre
+import sentence_template as sentence_template
+import sentence_element_builder as sentence_object
 
 
 from docx import Document
@@ -16,7 +18,7 @@ instruction = [
 					"Rearrange the sentences into the correct order."
 
 				]
-doc_instru = instruction[2]
+doc_instru = instruction[0]
 num_questions = 10
 
 
@@ -35,19 +37,23 @@ document.add_heading(doc_instru, level=1)
 
 
 for x in range(1, num_questions+1):
-	verb_list = vrb.verb()
-	verb = verb_list[1]
-	#print(verb)
-	adj_noun = obj.object(verb_list[0], 1) #stop s being added to nouns
-	#print(adj_noun)
+	# verb_list = vrb.verb()
+	# verb = verb_list[1]
+	# #print(verb)
+	# adj_noun = obj.object(verb_list[0], 1) #stop s being added to nouns
+	# #print(adj_noun)
 	
-	subject = subj.subject()
-	keyword = pre.present_tense_keyword()
+	# subject = subj.subject()
+	# keyword = pre.present_tense_keyword()
 
 	#Fill in the blanks
-	p = document.add_paragraph(f"{x}. {subject} ", style = "Normal")
+	s_obj = sentence_object.SentenceObjectBuilder().set_subj().set_verb().set_noun().set_quantity().set_adjective().get_sentence_obj()
+
+	FIBV = sentence_template.FillInTheBlanks_Verb(s_obj).set_plural_nouns().set_blank().get_sentence()
+	#FIBV = .FillInTheBlanks_Verb(s_obj).set_plural_nouns().set_blank().get_sentence()
+	p = document.add_paragraph(f"{x}. {FIBV.subj.subjects[0]}", style = "Normal")
 	p.add_run("______________").font.name = "Comic Sans"
-	p.add_run(f"({verb}) {adj_noun} {keyword}.")
+	p.add_run(f"{FIBV.verb[2]} {FIBV.num_nouns} {FIBV.adj} {FIBV.noun}.")
 
 	# p = document.add_paragraph(f"{x}. {subject} {verb} ", style = "Normal")
 
