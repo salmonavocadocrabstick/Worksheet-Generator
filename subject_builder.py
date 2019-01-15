@@ -10,25 +10,28 @@ import subject_list_pronouns as pronoun_list
 
 
 class SubjectBuilder:
-	def __init__(self, number_of_people):
+	def __init__(self, num_subj):
 		self.subjects = []
-		self.number_of_people = number_of_people
+		self.num_subj = num_subj
+
+	def get_num_subj(self):
+		return self.num_subj
 
 
 class PronounBuilder(SubjectBuilder):
-	def __init__(self, number_of_people=0):
-		super().__init__(number_of_people)
+	def __init__(self, num_subj=0):
+		super().__init__(num_subj)
 		self.subjects.append(Pronoun(choice(pronoun_list.get_list())).get_name())
 		if self.subjects[0] == "He" or  self.subjects[0] == "She" or self.subjects[0] == "It":
-			number_of_people = 1 #Marking 
+			self.num_subj = 1 #Marking 
 
 class NameBuilder(SubjectBuilder):
-	def __init__(self, number_of_people):
-		super().__init__(number_of_people)
+	def __init__(self, num_subj):
+		super().__init__(num_subj)
 		self._count = 0
-		if number_of_people > 0:
+		if num_subj > 0:
 			#2: x and y
-			while self._count != number_of_people:
+			while self._count != num_subj:
 				self.subjects.append(Name(choice(name_list.get_list())).get_name())
 				self._count += 1
 

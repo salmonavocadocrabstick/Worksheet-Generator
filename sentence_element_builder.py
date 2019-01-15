@@ -7,70 +7,86 @@ from random import randint, choice
 import verbs_gen
 
 
-class Sentence:
+class SentenceObject:
 	def __init__(self, subj="", verb="", adj="", noun="", q_word=""):
 		self.subj = subj
+		self.num_subj = 0
 		self.verb = verb
 		self.adj = adj
+		self.num_nouns = 0
 		self.noun = noun
 		self.q_word = q_word
 		#self.keyword = keyword
 
+	def get_noun(self):
+		return self.noun
 
-class Builder:
+	def get_verb(self):
+		return self.verb
 
-	def get_result(self):
-		pass
+	def get_num_nouns(self):
+		return self.num_nouns
 
-	@classmethod
-	def set_subj_name(self):
-		pass
+	def get_num_subj(self):
+		return self.num_subj
 
-	@classmethod
-	def set_verb(self):
-		pass
+# class Builder:
 
-	@classmethod
-	def set_noun(self):
-		pass
+# 	def get_result(self):
+# 		pass
 
-	@classmethod
-	def set_adjective(self):
-		pass
+# 	@classmethod
+# 	def set_subj(self):
+# 		pass
 
-	def set_plural(self):
-		pass
+# 	@classmethod
+# 	def set_verb(self):
+# 		pass
 
-	def set_question_word(self):
-		pass
+# 	@classmethod
+# 	def set_noun(self):
+# 		pass
 
-	def set_question(self, value):
-		pass
+# 	@classmethod
+# 	def set_adjective(self):
+# 		pass
 
-	def set_statement(self, value):
-		pass
+# 	def set_plural(self):
+# 		pass
 
-	def set_fill_in_blanks(self, value):
-		pass
+# 	def set_question_word(self):
+# 		pass
 
-	def set_tenses(self, value):
-		pass
+# 	def set_question(self, value):
+# 		pass
 
-	def set_keywords(self):
-		pass
+# 	def set_statement(self, value):
+# 		pass
+
+# 	def set_fill_in_blanks(self, value):
+# 		pass
+
+# 	def set_tenses(self, value):
+# 		pass
+
+# 	def set_keywords(self):
+# 		pass
 
 
-class SentenceBuilder(Builder):
+class SentenceObjectBuilder():
 	def __init__(self):
-		self.sentence = Sentence()
+		self.sentence = SentenceObject()
 
-	def set_subj_name(self):
+	def set_subj(self):
 		roll_dice = randint(1, 49)
 		if roll_dice % 2 == 0:
 			self.sentence.subj = subj_bd.PronounBuilder()
+			self.sentence.num_subj = self.sentence.subj.get_num_subj()
 		else:
-			number_of_people = randint(1,3)	#Unlikely needing more than 3 people, like, ever...
-			self.sentence.subj = subj_bd.NameBuilder(number_of_people)
+			self.sentence.num_subj = 1 #1/19: disabling for now randint(1,3)	#Unlikely needing more than 3 people, like, ever...
+			self.sentence.subj = subj_bd.NameBuilder(self.sentence.num_subj)
+
+		#print(f" !! SOB: {self.sentence.num_subj } !! ")
 		return self
 
 	def set_verb(self):
@@ -82,20 +98,28 @@ class SentenceBuilder(Builder):
 			self.sentence.noun = obj_dc.get_noun(self.sentence.verb[0])
 		return self
 
+	def set_quantity(self):
+		if self.sentence.verb:
+			self.sentence.num_nouns = obj_dc.get_quantity_countable(self.sentence.verb[0])
+		return self
+
 	def set_adjective(self):
 		if self.sentence.verb:
 			if self.sentence.noun:
 				self.sentence.adj = obj_dc.get_adjective(self.sentence.verb[0])
 		return self
 
-
-class FillInTheBlanksNounsBuilder():
-	def make_FIB():
-		return SentenceBuilder
+	def get_sentence_obj(self):
+		return self.sentence
 
 
-sentenceBlder = SentenceBuilder().set_subj_name().set_verb().set_noun().set_adjective()
-test = sentenceBlder.sentence
 
-print(f"{test.subj.subjects[0]} {test.verb[1]} {test.adj} {test.noun}")
+# sentenceBlder = SentenceObjectBuilder().set_subj().set_verb().set_noun().set_quantity().set_adjective()
+# test = sentenceBlder.sentence
+
+# print(type(sentenceBlder))
+# print(type(test))
+
+
+# print(f"{test.subj.subjects[0]} {test.verb[1]} {test.num_nouns} {test.adj} {test.noun}")
 

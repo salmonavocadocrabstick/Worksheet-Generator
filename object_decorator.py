@@ -13,7 +13,6 @@ class Noun(AbstractObject):
 	def __init__(self, item_type):
 		self.item_type = item_type
 		self.noun = nouns_gen.noun_generate(self.item_type) 
-
 	def get_noun(self):
 		return self.noun
 
@@ -50,22 +49,22 @@ class Color(AdjectiveDecorator):
 
 def get_adjective(decorate_type):
 
-	adj_type = randint(0,3)
+	adj_type = randint(1,3)
 
-	if adj_type == 0:
-		return Quantity(decorate_type).get_adj()
-	elif adj_type == 1:
-		print(1)
-		print(decorate_type)
+	#if adj_type == 0:
+	#	return Quantity(decorate_type).get_adj()
+	if adj_type == 1:
 		return Quality(decorate_type).get_adj()
 	elif adj_type == 2:
-		print(2)
-		print(decorate_type)
 		return Size(decorate_type).get_adj()
 	elif adj_type == 3:
-		print(3)
-		print(decorate_type)
 		return Color(decorate_type).get_adj()
+
+def get_quantity_countable(decorate_type):
+	return randint(0, 9)
+
+def get_quantity_uncountable(decorate_type):
+	return Quantity(decorate_type).get_adj()
 
 
 def get_noun(decorate_type):
