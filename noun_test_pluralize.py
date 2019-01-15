@@ -1,6 +1,9 @@
 
-from textblob import TextBlob
+#from textblob import TextBlob
+import inflect
+infl = inflect.engine()
 
-word = TextBlob("child").words
+#word = TextBlob("child").words
 
-print(type(word.pluralize()))
+print(infl.plural("kiss"))
+print(infl.plural("tomato"))
