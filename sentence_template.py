@@ -31,49 +31,22 @@ class SentenceTemplate:
 		return self
 
 	def set_blank(self, target):
-		pass
+		raise "Subclass should implement!"
 
 	def get_sentence(self):
 		return self.sentence
 
-
 class FillInTheBlanks_Verb(SentenceTemplate):
 	def set_blank(self):
 		if self.sentence.get_verb()[1]:
-			self.sentence.verb.append(f"({self.sentence.get_verb()[1]})")
-			self.sentence.verb[1] = "____________________"
+			self.sentence.verb[1]=(f"!({self.sentence.get_verb()[1]})")
+			print(self.sentence.verb[1])
 		return self
 
 
 class FillInTheBlanks_Noun(SentenceTemplate):
 	def set_blank(self):
 		if self.sentence.get_noun():
-			#noun = []
-			#noun.append("____________________")
-			noun[0] = f"({self.sentence.get_noun()})"
-			self.sentence.noun = noun
+			self.sentence.noun[0] = f"!({self.sentence.get_noun()})"
 		return self
-
-
-
-# test = sentence_object.SentenceObjectBuilder().set_subj().set_verb().set_noun().set_quantity().set_adjective().get_sentence_obj()
-# # print(f"{test.subj.subjects[0]} {test.verb[1]} {test.num_nouns} {test.adj} {test.noun}")
-
-# # #test1 = deepcopy(test)
-
-
-# FIBV = FillInTheBlanks_Verb(test).set_plural_nouns().set_blank().get_sentence()
-# print(f"{FIBV.subj.subjects[0]} {FIBV.verb[1]} {FIBV.verb[2]} {FIBV.num_nouns} {FIBV.adj} {FIBV.noun}.")
-
-
-
-# FIBN = FillInTheBlanks_Noun(test).set_plural_verbs().set_blank().get_sentence()
-# print(f"{FIBN.subj.subjects[0]} {FIBN.verb[1]} {FIBN.num_nouns} {FIBN.adj} {FIBN.noun[0]} {FIBN.noun[1]}.")
-
-
-# FIBN = FillInTheBlanks_Noun().set_plural_verbs(test)
-# print(f"{test.subj.subjects[0]} {test.verb[1]} {test.num_nouns} {test.adj} {test.noun}")
-
-
-
 

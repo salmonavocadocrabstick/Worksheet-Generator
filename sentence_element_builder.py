@@ -65,8 +65,13 @@ class SentenceObjectBuilder():
 				self.sentence.adj = obj_dc.get_adjective(self.sentence.verb[0])
 		return self
 
-	def get_sentence_obj(self):
+	def get_sentence_object(self):
 		return self.sentence
+
+	
+def get_s_obj():
+		#s_obj = sentence_object.SentenceObjectBuilder().set_subj().set_verb().set_noun().set_quantity().set_adjective().get_sentence_obj()
+		return SentenceObjectBuilder().set_subj().set_verb().set_noun().set_quantity().set_adjective().get_sentence_object()
 
 
 

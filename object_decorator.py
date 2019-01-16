@@ -46,13 +46,10 @@ class Color(AdjectiveDecorator):
 		self.adj = adj_gen.color_adj_generator(decorate_type)
 
 
-
 def get_adjective(decorate_type):
 
 	adj_type = randint(1,3)
 
-	#if adj_type == 0:
-	#	return Quantity(decorate_type).get_adj()
 	if adj_type == 1:
 		return Quality(decorate_type).get_adj()
 	elif adj_type == 2:
@@ -60,12 +57,13 @@ def get_adjective(decorate_type):
 	elif adj_type == 3:
 		return Color(decorate_type).get_adj()
 
+
 def get_quantity_countable(decorate_type):
 	return randint(0, 9)
+	# 1/19 : Note on uncountable nouns, may need to come back and fix.
 
 def get_quantity_uncountable(decorate_type):
 	return Quantity(decorate_type).get_adj()
-
 
 def get_noun(decorate_type):
 	return Noun(decorate_type).get_noun()

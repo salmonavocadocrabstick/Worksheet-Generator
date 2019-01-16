@@ -2,13 +2,15 @@ import objects_gen as obj
 import verbs_gen as vrb
 import subjects_gen as subj
 import pres_keywords_gen as pre
-import sentence_template as sentence_template
+#import sentence_template as sentence_template
 import sentence_element_builder as sentence_object
-
+import sentence_grammar as sentence_grammar
+import sentence_maker as s_make
 
 from docx import Document
 from docx.shared import Pt #for font size
 from datetime import date
+
 
 #Variables
 doc_title = "Verbs"
@@ -47,19 +49,12 @@ for x in range(1, num_questions+1):
 	# keyword = pre.present_tense_keyword()
 
 	#Fill in the blanks
-	s_obj = sentence_object.SentenceObjectBuilder().set_subj().set_verb().set_noun().set_quantity().set_adjective().get_sentence_obj()
-
-	FIBV = sentence_template.FillInTheBlanks_Verb(s_obj).set_plural_nouns().set_blank().get_sentence()
-	#FIBV = .FillInTheBlanks_Verb(s_obj).set_plural_nouns().set_blank().get_sentence()
-	p = document.add_paragraph(f"{x}. {FIBV.subj.subjects[0]}", style = "Normal")
+	#s_obj = sentence_object.SentenceObjectBuilder().set_subj().set_verb().set_noun().set_quantity().set_adjective().get_sentence_obj()
+	s_obj = sentence_object.get_s_obj()
+	FIBV = sentence_grammar.generate_FIB_verb(s_obj)
+	p = document.add_paragraph(f"{x}. {s_make.FIB_SentenceConstruction(FIBV).make_first_half()}", style = "Normal")
 	p.add_run("______________").font.name = "Comic Sans"
-	p.add_run(f"{FIBV.verb[2]} {FIBV.num_nouns} {FIBV.adj} {FIBV.noun}.")
-
-	# p = document.add_paragraph(f"{x}. {subject} {verb} ", style = "Normal")
-
-
-
-	#document.add_paragraph(this_question, style='Normal')
+	p.add_run(f"{s_make.FIB_SentenceConstruction(FIBV).make_second_half()}.")
 
 document.add_page_break()
 document.save(f"{doc_title}_{date.today()}.docx")
