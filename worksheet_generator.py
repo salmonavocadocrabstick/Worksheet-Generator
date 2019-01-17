@@ -1,7 +1,7 @@
-import objects_gen as obj
-import verbs_gen as vrb
-import subjects_gen as subj
-import pres_keywords_gen as pre
+# import objects_gen as obj
+# import verbs_gen as vrb
+# import subjects_gen as subj
+# import pres_keywords_gen as pre
 #import sentence_template as sentence_template
 import sentence_element_builder as sentence_object
 import sentence_grammar as sentence_grammar
