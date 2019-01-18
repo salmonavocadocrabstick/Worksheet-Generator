@@ -14,20 +14,24 @@ p = inflect.engine()
 
 
 class SentenceConstruction():
-	dict_keys = ["q_word", "subject", "verb", "counter", "adjectives", "noun"]
+	def __init__(self):
+		self.halves = None
+	
 	def make_full_sentence(self):
 		if self.full_sentence:
 			return self.full_sentence
 
-class FIB_SentenceConstruction(SentenceConstruction):
-	def __init__(self, FIB):
-		self.full_sentence = f"{FIB.subj.subjects[0]} {FIB.verb[1]} {FIB.num_nouns} {FIB.adj} {FIB.noun}"
-		self.halves = self.sentence.split('!')
+	def make_part_a(self):
+		if "!(" in self.full_sentence and not self.halves:
+			self.halves = self.full_sentence.split("!")
+		if self.halves:
+			return self.halves[0]
 
-	def make_first_half(self):
-		return self.halves[0]
-	def make_second_half(self):
-		return self.halves[1]
+	def make_part_b(self):
+		if "!(" in self.full_sentence and not self.halves:
+			self.halves = self.full_sentence.split("!")
+		if self.halves:
+			return self.halves[1]
 
 
 class QuestionConstruction(SentenceConstruction):
@@ -61,20 +65,20 @@ class StatementConstruction(SentenceConstruction):
 
 def sort_modified_s_obj(sentence_object):
 	if sentence_object.is_question:
-		return QuestionConstruction(sentence_object.get_wrapped_sentence_obj()).make_full_sentence()
+		return QuestionConstruction(sentence_object.get_wrapped_sentence_obj())#.make_full_sentence()
 
 	else:
-		return StatementConstruction(sentence_object.get_wrapped_sentence_obj()).make_full_sentence()
+		return StatementConstruction(sentence_object.get_wrapped_sentence_obj())#.make_full_sentence()
 
 
 
 
 s_obj = sentence_object.get_s_obj()
-mo_obj = sentence_grammar.FIBV_modified_sentence_object(s_obj)
+mo_obj = sentence_grammar.FIBV_sentence_obj(s_obj)
 print(sort_modified_s_obj(mo_obj))
-mo_obj2 = sentence_grammar.FIBN_modified_sentence_object(s_obj)
+mo_obj2 = sentence_grammar.FIBN_sentence_obj(s_obj)
 print(sort_modified_s_obj(mo_obj2))
-mo_obj3 = sentence_grammar.FS_modified_sentence_object(s_obj)
+mo_obj3 = sentence_grammar.FS_sentence_obj(s_obj)
 print(sort_modified_s_obj(mo_obj3))
-mo_obj4 = sentence_grammar.Question_modified_sentence_object(s_obj)
+mo_obj4 = sentence_grammar.Question_sentence_obj(s_obj)
 print(sort_modified_s_obj(mo_obj4))

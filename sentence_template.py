@@ -118,7 +118,7 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 		if self.sentence.get_verb() in ["are", "is", "is not", "are not"]:
 			self.sentence.set_verb("(be)")
 		else:
-			self.sentence.set_verb(f"({self.sentence.get_verb()})")
+			self.sentence.set_verb(f"!({self.sentence.get_verb()})")
 
 		self._process_nouns()
 		return self
@@ -148,7 +148,7 @@ class FillInTheBlanks_Noun(SentenceTemplate):
 		if self.ignore_do or not self.sentence.get_q_word() :
 			self._set_singular_verbs()	
 
-		self.sentence.set_noun(f"({self.sentence.get_noun()})")
+		self.sentence.set_noun(f"!({self.sentence.get_noun()})")
 		return self
 
 
