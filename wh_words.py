@@ -4,7 +4,7 @@
 from random import choice
 
 def get_question_word():
-	return choice(["there", False]) #"can", "does", 
+	return choice(["there", "can", "does", False]) # 
 
 
 

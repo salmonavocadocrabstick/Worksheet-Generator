@@ -81,12 +81,5 @@ box = "box"
 # print(FIBV)
 
 str1 = "there !(be) split thing into asldfjk"
-a, b = str1.split("!")
-print("Length of first: " + str(len(a)))
-print(a)
-print("Type of A: ")
-print(type(a))
-c = a[0].upper() + a[1:]
-print(c)
-print(b)
-
+list1 = str1.split(" ")
+print(list1)

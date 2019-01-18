@@ -9,6 +9,7 @@
 
 import sentence_element_builder as sentence_object
 import sentence_grammar as sentence_grammar
+from random import shuffle
 import inflect
 p = inflect.engine()
 
@@ -23,7 +24,7 @@ class SentenceConstruction():
 	
 	def get_full_sentence(self):
 		if self.full_sentence:
-			self.full_sentence[0].upper()
+			self.full_sentence = self.full_sentence[0].upper() + self.full_sentence[1:]
 			return self.full_sentence
 
 	def get_part_a(self):
@@ -43,6 +44,14 @@ class SentenceConstruction():
 			self.part_b = self.part_b[0].upper() + self.part_b[1:]
 		return self.part_b
 
+	def get_jumboed_sentence(self):
+		if "!(" in self.full_sentence:
+			raise "You cannot request for Sentence Rearragement targets with fill in the blanks objects"
+			return None
+
+		sentence_list = self.full_sentence.split(" ")
+		shuffle(sentence_list)
+		return sentence_list
 
 class QuestionConstruction(SentenceConstruction):
 	def __init__(self, wrapped):
@@ -97,12 +106,12 @@ def generate_sentence_by_type(sentence_object):
 
 
 
-s_obj = sentence_object.get_s_obj()
-mo_obj = sentence_grammar.FIBV_sentence_obj(s_obj)
-#print(sort_modified_s_obj(mo_obj))
-mo_obj2 = sentence_grammar.FIBN_sentence_obj(s_obj)
-#print(sort_modified_s_obj(mo_obj2))
-mo_obj3 = sentence_grammar.FS_sentence_obj(s_obj)
-#print(sort_modified_s_obj(mo_obj3))
-mo_obj4 = sentence_grammar.Q_sentence_obj(s_obj)
-#print(sort_modified_s_obj(mo_obj4))
+# s_obj = sentence_object.get_s_obj()
+# mo_obj = sentence_grammar.FIBV_sentence_obj(s_obj)
+# #print(sort_modified_s_obj(mo_obj))
+# mo_obj2 = sentence_grammar.FIBN_sentence_obj(s_obj)
+# #print(sort_modified_s_obj(mo_obj2))
+# mo_obj3 = sentence_grammar.FS_sentence_obj(s_obj)
+# #print(sort_modified_s_obj(mo_obj3))
+# mo_obj4 = sentence_grammar.Q_sentence_obj(s_obj)
+# #print(sort_modified_s_obj(mo_obj4))
