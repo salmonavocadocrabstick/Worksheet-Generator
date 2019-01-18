@@ -21,3 +21,11 @@ def FS_sentence_obj(sentence_object):
 
 def Q_sentence_obj(sentence_object):
 	return sentence_template.FullSentence(sentence_object).process_s_obj(set_question=True).get_wrapped_sentence_obj()
+
+def sort_modified_s_obj(sentence_object):
+	if sentence_object.is_question:
+		sentence_template.QuestionConstruction(sentence_object.get_wrapped_sentence_obj()).make_full_sentence()
+
+	else:
+		sentence_template.StatementConstruction(sentence_object.get_wrapped_sentence_obj()).make_full_sentence()
+

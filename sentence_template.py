@@ -82,6 +82,10 @@ class SentenceTemplate:
 		if self.sentence.get_q_word() == "there":
 			self.sentence.set_verb(p.plural("is", self.sentence.get_num_nouns()))
 
+	def _add_bracket(self, word):
+		return f"!({word})"
+
+
 	def set_blank(self, target):
 		raise "Subclass should implement!"
 
@@ -116,9 +120,11 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 		# if self.ignore_do or not self.sentence.get_q_word() :
 		# 	self._set_singular_verbs()	
 		if self.sentence.get_verb() in ["are", "is", "is not", "are not"]:
-			self.sentence.set_verb("(be)")
+			bracketed_word = self._add_bracket("be")
+			self.sentence.set_verb(bracketed_word)
 		else:
-			self.sentence.set_verb(f"!({self.sentence.get_verb()})")
+			bracketed_word = self._add_bracket(self.sentence.get_verb())
+			self.sentence.set_verb(bracketed_word)
 
 		self._process_nouns()
 		return self
@@ -148,7 +154,8 @@ class FillInTheBlanks_Noun(SentenceTemplate):
 		if self.ignore_do or not self.sentence.get_q_word() :
 			self._set_singular_verbs()	
 
-		self.sentence.set_noun(f"!({self.sentence.get_noun()})")
+		bracketed_word = self._add_bracket(self.sentence.get_noun())
+		self.sentence.set_noun(bracketed_word)
 		return self
 
 

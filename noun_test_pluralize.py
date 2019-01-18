@@ -66,16 +66,27 @@ box = "box"
 # # # 
 # print("I saw", p.number_to_words("any", N))
 
-dict_keys = ["q_word", "subject", "verb", "counter", "adjectives", "noun"]
-value_keys = ["there", "Julie", "is not", "a", "red", "cat"]
+# dict_keys = ["q_word", "subject", "verb", "counter", "adjectives", "noun"]
+# value_keys = ["there", "Julie", "is not", "a", "red", "cat"]
 
 
-s = dict(zip(dict_keys, value_keys ))
-print(s)
+# s = dict(zip(dict_keys, value_keys ))
+# print(s)
 
-FIBN = f"{s.get('q_word')} {s.get('verb')} {s.get('counter')}  _____________ ({s.get('noun')})."
+# FIBN = f"{s.get('q_word')} {s.get('verb')} {s.get('counter')}  _____________ ({s.get('noun')})."
 
-FIBV = f"{s.get('q_word')} ____________ ({s.get('verb')})  {s.get('counter')} {s.get('noun')}."
+# FIBV = f"{s.get('q_word')} ____________ ({s.get('verb')})  {s.get('counter')} {s.get('noun')}."
 
-print(FIBN)
-print(FIBV)
+# print(FIBN)
+# print(FIBV)
+
+str1 = "there !(be) split thing into asldfjk"
+a, b = str1.split("!")
+print("Length of first: " + str(len(a)))
+print(a)
+print("Type of A: ")
+print(type(a))
+c = a[0].upper() + a[1:]
+print(c)
+print(b)
+

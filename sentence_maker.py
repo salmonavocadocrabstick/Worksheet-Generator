@@ -12,73 +12,97 @@ import sentence_grammar as sentence_grammar
 import inflect
 p = inflect.engine()
 
+DEBUG = False
+
 
 class SentenceConstruction():
 	def __init__(self):
-		self.halves = None
+		self.part_a = ""
+		self.part_b = ""
+		self.is_split = False
 	
-	def make_full_sentence(self):
+	def get_full_sentence(self):
 		if self.full_sentence:
+			self.full_sentence[0].upper()
 			return self.full_sentence
 
-	def make_part_a(self):
-		if "!(" in self.full_sentence and not self.halves:
-			self.halves = self.full_sentence.split("!")
-		if self.halves:
-			return self.halves[0]
+	def get_part_a(self):
+		if "!(" in self.full_sentence and not self.is_split:
+			self.part_a, self.part_b = self.full_sentence.split("!")
+			self.is_split = True
+		if len(self.part_a) > 0:
+			self.part_a = self.part_a[0].upper() + self.part_a[1:]
+		return self.part_a
 
-	def make_part_b(self):
-		if "!(" in self.full_sentence and not self.halves:
-			self.halves = self.full_sentence.split("!")
-		if self.halves:
-			return self.halves[1]
+	def get_part_b(self):
+		if "!(" in self.full_sentence and not self.is_split:
+			self.part_a, self.part_b = self.full_sentence.split("!")
+			self.is_split = True
+			
+		if len(self.part_b) > 0:
+			self.part_b = self.part_b[0].upper() + self.part_b[1:]
+		return self.part_b
 
 
 class QuestionConstruction(SentenceConstruction):
 	def __init__(self, wrapped):
+		super().__init__()
 		if wrapped.sentence.get_q_word() in ["do", "does", "can"]:
-			self.full_sentence =  f"4. {wrapped.sentence.get_q_word()} {wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {wrapped.sentence.get_num_nouns()} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}? "
+			if DEBUG:
+				print("Question - 4 ")
+			self.full_sentence =  f"{wrapped.sentence.get_q_word()} {wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {wrapped.sentence.get_num_nouns()} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}? "
 		elif wrapped.sentence.get_q_word() == "there":
-			self.full_sentence =  f"5. {wrapped.sentence.get_verb()} {wrapped.sentence.get_q_word()} {wrapped.sentence.get_num_nouns()} {wrapped.sentence.adj} {wrapped.sentence.get_noun()} ?"
+			if DEBUG:
+				print("Question - 5 ")
+			self.full_sentence =  f"{wrapped.sentence.get_verb()} {wrapped.sentence.get_q_word()} {wrapped.sentence.get_num_nouns()} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}?"
 
 class StatementConstruction(SentenceConstruction):
 	def __init__(self, wrapped):
+		super().__init__()
 		if wrapped.sentence.get_q_word() == "there":
 			# There are ..
 			counter = p.number_to_words(wrapped.sentence.get_num_nouns())
 			if counter == "zero":
 				counter = wrapped.sentence.get_num_nouns()
-			self.full_sentence = f"3. {wrapped.sentence.get_q_word()} {wrapped.sentence.get_verb()} {counter} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}."
+			if DEBUG:
+				print("Statement - 3 ")
+			self.full_sentence = f"{wrapped.sentence.get_q_word()} {wrapped.sentence.get_verb()} {counter} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}."
 		else:
 			#Something's a bit wonky with the logic...
 			#Maybe there's a better way to combine counter + adj + noun with inflect
 			if wrapped.ignore_do:
+				if DEBUG:
+					print("Statement - 1 ")
 				# He eats 5 potatoes
-				self.full_sentence = f"1. {wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()} "
+				self.full_sentence = f"{wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}."
 			elif wrapped.sentence.get_q_word():
+				if DEBUG:
+					print("Statement - 2a ")
 				# He can eat 5 potatoes
-				self.full_sentence = f"2a. {wrapped.sentence.get_subj()} {wrapped.sentence.get_q_word()} {wrapped.sentence.get_verb()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()} "
+				self.full_sentence = f"{wrapped.sentence.get_subj()} {wrapped.sentence.get_q_word()} {wrapped.sentence.get_verb()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}."
 			else:
+				if DEBUG:
+					print("Statement - 2b ")
 				# He eats 5 potatoes
-				self.full_sentence = f"2b. {wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()} "
+				self.full_sentence = f"{wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}."
 
 
-def sort_modified_s_obj(sentence_object):
+def generate_sentence_by_type(sentence_object):
 	if sentence_object.is_question:
-		return QuestionConstruction(sentence_object.get_wrapped_sentence_obj())#.make_full_sentence()
+		return QuestionConstruction(sentence_object.get_wrapped_sentence_obj())
 
 	else:
-		return StatementConstruction(sentence_object.get_wrapped_sentence_obj())#.make_full_sentence()
+		return StatementConstruction(sentence_object.get_wrapped_sentence_obj())
 
 
 
 
 s_obj = sentence_object.get_s_obj()
 mo_obj = sentence_grammar.FIBV_sentence_obj(s_obj)
-print(sort_modified_s_obj(mo_obj))
+#print(sort_modified_s_obj(mo_obj))
 mo_obj2 = sentence_grammar.FIBN_sentence_obj(s_obj)
-print(sort_modified_s_obj(mo_obj2))
+#print(sort_modified_s_obj(mo_obj2))
 mo_obj3 = sentence_grammar.FS_sentence_obj(s_obj)
-print(sort_modified_s_obj(mo_obj3))
-mo_obj4 = sentence_grammar.Question_sentence_obj(s_obj)
-print(sort_modified_s_obj(mo_obj4))
+#print(sort_modified_s_obj(mo_obj3))
+mo_obj4 = sentence_grammar.Q_sentence_obj(s_obj)
+#print(sort_modified_s_obj(mo_obj4))
