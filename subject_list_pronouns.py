@@ -2,12 +2,12 @@
 pronoun_list = [
 			
 				"I",
-				"You",
-				"We",
-				"They",
-				"He",
-				"She",
-				"It"
+				"you",
+				"we",
+				"they",
+				"he",
+				"she",
+				"it"
 
 			]
 

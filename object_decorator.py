@@ -59,7 +59,7 @@ def get_adjective(decorate_type):
 
 
 def get_quantity_countable(decorate_type):
-	return randint(0, 9)
+	return randint(1, 8)
 	# 1/19 : Note on uncountable nouns, may need to come back and fix.
 
 def get_quantity_uncountable(decorate_type):

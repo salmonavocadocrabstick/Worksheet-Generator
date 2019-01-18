@@ -22,7 +22,7 @@ class PronounBuilder(SubjectBuilder):
 	def __init__(self, num_subj=0):
 		super().__init__(num_subj)
 		self.subjects.append(Pronoun(choice(pronoun_list.get_list())).get_name())
-		if self.subjects[0] == "He" or  self.subjects[0] == "She" or self.subjects[0] == "It":
+		if self.subjects[0] == "he" or  self.subjects[0] == "she" or self.subjects[0] == "it":
 			self.num_subj = 1 #Marking 
 
 class NameBuilder(SubjectBuilder):

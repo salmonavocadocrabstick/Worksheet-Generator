@@ -52,15 +52,30 @@ box = "box"
 # list1 = p.join(subj3)
 # print(list1)
 
-N = 0
+# N = 0
 
-print("I saw", p.plural_noun("dog", N))
-print("I saw", p.no("dog", N))
+# print("I saw", p.plural_noun("dog", N))
+# print("I saw", p.no("dog", N))
 
-N = 2
+# N = None
 
-# Plural Nouns can be handled this way: 
-print("I saw", p.plural_noun("dog", N))
-print(type(p.no("dog", p.number_to_words(N))))
+# # # Plural Nouns can be handled this way: 
+# # print("I saw", p.plural_noun("dog", N))
+# # print(type(p.no("dog", p.number_to_words(N))))
 
-# 
+# # # 
+# print("I saw", p.number_to_words("any", N))
+
+dict_keys = ["q_word", "subject", "verb", "counter", "adjectives", "noun"]
+value_keys = ["there", "Julie", "is not", "a", "red", "cat"]
+
+
+s = dict(zip(dict_keys, value_keys ))
+print(s)
+
+FIBN = f"{s.get('q_word')} {s.get('verb')} {s.get('counter')}  _____________ ({s.get('noun')})."
+
+FIBV = f"{s.get('q_word')} ____________ ({s.get('verb')})  {s.get('counter')} {s.get('noun')}."
+
+print(FIBN)
+print(FIBV)

@@ -1,4 +1,4 @@
-from random import randint, choice, sample
+noun random import randint, choice, sample
 
 pronouns = [
 			

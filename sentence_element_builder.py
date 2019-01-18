@@ -24,13 +24,12 @@ class SentenceObject:
 		self.is_q = False
 
 
-
 	def get_noun(self):
 		noun_copy = deepcopy(self.noun)
 		return p.join(noun_copy)
 
 	def set_noun(self, noun):
-		self.noun = noun
+		self.noun = [noun]
 
 	def get_verb(self):
 		verb_copy = deepcopy(self.verb)
@@ -126,13 +125,6 @@ def get_s_obj():
 		#s_obj = sentence_object.SentenceObjectBuilder().gen_subj().gen_verb().gen_noun().gen_quantity().gen_adjective().get_sentence_obj()
 		return SentenceObjectBuilder().gen_subj().gen_verb().gen_noun().gen_quantity().gen_adjective().gen_question_word().get_sentence_object()
 
-
-
-# sentenceBlder = SentenceObjectBuilder().gen_subj().gen_verb().gen_noun().gen_quantity().gen_adjective()
-# test = sentenceBlder.sentence
-
-# print(type(sentenceBlder))
-# print(type(test))
 
 
 # print(f"{test.subj.subjects[0]} {test.verb[1]} {test.num_nouns} {test.adj} {test.noun}")
