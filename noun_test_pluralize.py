@@ -84,13 +84,10 @@ box = "box"
 # list1 = str1.split(" ")
 # print(list1)
 
-cat = "cat"
-o = "dog"
-
-print(p.an(cat))
-print(p.a(cat))
-print(p.an(o))
-print(p.a(o))
-
-i = p.a(o).split(" ")
-print(i[0])
+x = "any"
+print(type(x))
+print(f"Checking type: {isinstance(x, int)}")
+if isinstance(x, int):
+	print(p.number_to_words(x))
+else:
+	print(x)

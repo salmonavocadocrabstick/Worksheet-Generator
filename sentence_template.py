@@ -1,7 +1,7 @@
 # Templates for different types of sentences
 # 
 # Stephanie Leung
-import sentence_element_builder as sentence_object
+import sentence_obj_builder as s_obj
 from copy import deepcopy
 from random import randint
 import wh_words as wh_word
@@ -9,83 +9,109 @@ import inflect
 p = inflect.engine() #use to set grammar rules
 
 
+########################################################################
+#
+#	1/19/2018: Supports Can / Does / Do / There sentences for now
+#		- Present tense is functional
+#		- Implementing Past tense soon.
+#####
+
+
 # Takes in sentence object for further adjustments
 class SentenceTemplate:
 
-	def __init__(self, sentence):
-		self.sentence = deepcopy(sentence)
+	def __init__(self, s_obj):
+		self.s_obj = deepcopy(s_obj)
 		self.is_neg = False
 		self.is_question = False
 		self.ignore_do = False
 
 	def set_tense(self):
+		'''To be implemented. Planning to make Past Tense/Future tense practices'''
 		pass
 
 	def process_s_obj(self, set_true = None):
 		raise NotImplementedError
 
 	def _process_nouns(self):
-		self.sentence.set_noun(p.plural(self.sentence.get_noun(), self.sentence.get_num_nouns()))
+		'''Pluralize/Singularize Nouns. Always run this before running _process_number()'''
+		self.s_obj.set_noun(p.plural(self.s_obj.get_noun(), self.s_obj.get_num_nouns()))
 
 	def _set_singular_verbs(self):
 		'''Check number of subjects, change verb if necessary. (default verb is plural)'''
-		if self.sentence.get_num_subj() == 1:
-			verb = self.sentence.get_verb()
+		if self.s_obj.get_num_subj() == 1:
+			verb = self.s_obj.get_verb()
 			#print(type(verb))
-			self.sentence.set_verb(p.plural(verb))
+			self.s_obj.set_verb(p.plural(verb))
 		return self
 
-	def _handle_there(self, pos_neg):
-		self.sentence.set_verb(p.plural(pos_neg, self.sentence.get_num_nouns()))
-
-		if self.sentence.get_num_nouns() == 1:
-			article = p.an(self.sentence.get_noun())
-			self.sentence.set_num_nouns(article[0])
-
-		elif self.sentence.get_num_nouns() > 1 or self.sentence.get_num_nouns() == 0:
-			self.sentence.set_num_nouns("any")
+	def _handle_be(self, verb):
+		# Be - Is / Are
+		# Note: When implementing "I am", will need to come back and revise.
+		self.s_obj.set_verb(p.plural(verb, self.s_obj.get_num_nouns()))
 
 
 	def _modify_by_q_word(self): 
-		#Careful: ONLY run this after deciding that the sentence is indeed a question.
-		if self.sentence.get_is_q():
-			if self.sentence.get_q_word() == "does":
-				if self.sentence.get_num_subj() != 1:
-					self.sentence.set_q_word("do") 	#They/I/You/We
+		#Careful: ONLY run this after deciding that the s_obj is indeed a question.
+		if self.s_obj.get_is_q():
+			if self.s_obj.get_q_word() == "does":
+				if self.s_obj.get_num_subj() != 1:
+					self.s_obj.set_q_word("do") 	#They/I/You/We
 					#self.set_q_word()
-			elif self.sentence.get_q_word() == "there" :
-				if self.sentence.get_verb():
-					self._handle_there("is")
+			elif self.s_obj.get_q_word() == "there" :
+				if self.s_obj.get_verb():
+					self._handle_be("is")
 			self.is_question = True
-		#return self
 
 	def _roll_for_negative(self):
-		#Careful: ONLY run this after confirming that this sentence is NOT a question.
+		#Careful: ONLY run this after confirming that this s_obj is NOT a question.
 		set_neg = randint(0,1)
 		if set_neg:
-			if self.sentence.get_q_word() == "does": # does not/ do not
-				if self.sentence.get_num_subj() != 1:
-					self.sentence.set_q_word("do not") 	#They/I/You/We
+			if self.s_obj.get_q_word() == "does": # does not/ do not
+				if self.s_obj.get_num_subj() != 1:
+					self.s_obj.set_q_word("do not") 	#They/I/You/We
 				else:
-					self.sentence.set_q_word("does not") 
-			elif self.sentence.get_q_word() == "can":	# cannot
-				self.sentence.set_q_word("cannot") 
+					self.s_obj.set_q_word("does not") 
+			elif self.s_obj.get_q_word() == "can":	# cannot
+				self.s_obj.set_q_word("cannot") 
 
-			elif self.sentence.get_q_word() == "there":
-				self._handle_there("is not")
+			elif self.s_obj.get_q_word() == "there":
+				self._handle_be("is not")
 			self.is_neg = True
 
 
 	def _handle_positive(self):
-		if self.sentence.get_q_word() in ["do", "does"]:
+		if self.s_obj.get_q_word() in ["do", "does"]:
 			self.ignore_do = True
 
-		if self.sentence.get_q_word() == "there":
-			self.sentence.set_verb(p.plural("is", self.sentence.get_num_nouns()))
+		if self.s_obj.get_q_word() == "there":
+			self.s_obj.set_verb(p.plural("is", self.s_obj.get_num_nouns()))
+
+	def _process_number(self):
+		# Only call this after the s_obj has decided as a question or statement.
+		# Only call this after pluralizing nouns		
+		if self.s_obj.get_num_nouns() == 0:
+			#Yes, 0
+			self.s_obj.set_num_nouns("any")
+		else:
+			#No, not 0
+			if self.s_obj.get_num_nouns() > 1:
+				# Yes, greater than 1 noun
+				if self.is_question:
+					# Are there any... Can you eat any....
+					self.s_obj.set_num_nouns("any")
+				else:
+					# There are 5 angry dogs | You can eat 5 angry boxes
+					self.s_obj.set_num_nouns(p.number_to_words(self.s_obj.get_num_nouns()))
+			else:
+				# No, equals 1.
+				# There is a.... There is an... Can you eat a....
+				article = p.an(self.s_obj.get_noun())
+				self.s_obj.set_num_nouns(article[0])
 
 	def _add_bracket(self, word):
+		'''Marks target word for fill in the blanks. Only use for fill in the blank type questions.'''
 		return f"!({word})"
-
 
 	def set_blank(self, target):
 		raise "Subclass should implement!"
@@ -93,12 +119,13 @@ class SentenceTemplate:
 	def get_wrapped_sentence_obj(self):
 		return self
 
-	def get_mod_sentence_obj(self):
-		return self.sentence
+	#def get_mod_s_obj_obj(self):
+	#	return self.s_obj
 
 class FillInTheBlanks_Verb(SentenceTemplate):
-	def __init__(self, sentence):
-		super().__init__(sentence)
+	'''Generates objects for sentences like : I can _______ (eat) a potatoe.'''
+	def __init__(self, s_obj):
+		super().__init__(s_obj)
 
 	def process_s_obj(self, set_true = None):
 		'''Checks if the object is set as a question. If no default setting, roll for it
@@ -109,8 +136,8 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 		# Rolled is question, now check if there's a q word at all
 		if set_true:
 			# Only set true if a q word is found.
-			if self.sentence.get_q_word():
-				self.sentence.set_is_q(True)  
+			if self.s_obj.get_q_word():
+				self.s_obj.set_is_q(True)  
 				self._modify_by_q_word()
 		
 		# Not a question type, roll to see if its positive / negative	
@@ -120,19 +147,21 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 				self._handle_positive()
 
 		# Verb form, thus change "is/am/are" to "be"
-		if self.sentence.get_verb() in ["are", "is", "is not", "are not"]:
+		if self.s_obj.get_verb() in ["are", "is", "is not", "are not"]:
 			bracketed_word = self._add_bracket("be")
-			self.sentence.set_verb(bracketed_word)
+			self.s_obj.set_verb(bracketed_word)
 		else:
-			bracketed_word = self._add_bracket(self.sentence.get_verb())
-			self.sentence.set_verb(bracketed_word)
+			bracketed_word = self._add_bracket(self.s_obj.get_verb())
+			self.s_obj.set_verb(bracketed_word)
 
 		self._process_nouns()
+		self._process_number()
 		return self
 
 class FillInTheBlanks_Noun(SentenceTemplate):
-	def __init__(self, sentence):
-		super().__init__(sentence)
+	'''Generates objects for sentences like : I eat five ______ (potatoe).'''
+	def __init__(self, s_obj):
+		super().__init__(s_obj)
 
 	def process_s_obj(self, set_true = None):
 		'''Checks if the object is set as a question. If no default setting, roll for it
@@ -143,8 +172,8 @@ class FillInTheBlanks_Noun(SentenceTemplate):
 		# Rolled is question, now check if there's a q word at all
 		if set_true:
 			# Only set true if a q word is found.
-			if self.sentence.get_q_word():
-				self.sentence.set_is_q(True)  
+			if self.s_obj.get_q_word():
+				self.s_obj.set_is_q(True)  
 				self._modify_by_q_word()
 				
 		else:
@@ -152,17 +181,21 @@ class FillInTheBlanks_Noun(SentenceTemplate):
 			if not self.is_neg:
 				self._handle_positive()
 
-		if self.ignore_do or not self.sentence.get_q_word() :
+		if self.ignore_do or not self.s_obj.get_q_word() :
 			self._set_singular_verbs()	
 
-		bracketed_word = self._add_bracket(self.sentence.get_noun())
-		self.sentence.set_noun(bracketed_word)
+		bracketed_word = self._add_bracket(self.s_obj.get_noun())
+		self.s_obj.set_noun(bracketed_word)
+
+		self._process_number()
 		return self
 
 
 class FullSentence(SentenceTemplate):
-	def __init__(self, sentence):
-		super().__init__(sentence)
+	'''Generates objects for sentences like : I can eat five potatoes.
+	Mainly used for rearranging sentences / answering questions. '''
+	def __init__(self, s_obj):
+		super().__init__(s_obj)
 		
 	def process_s_obj(self, set_question = None):
 		'''Checks if the object is set as a question. If no default setting, roll for it
@@ -173,17 +206,16 @@ class FullSentence(SentenceTemplate):
 		# Rolled is question, now check if there's a q word at all
 		if set_question:
 			# Only set true if a q word is found.
-			if not self.sentence.get_q_word():
+			if not self.s_obj.get_q_word():
 				# Force a q word into the slot.
-				while not self.sentence.get_q_word():
+				while not self.s_obj.get_q_word():
 					word = wh_word.get_question_word()
 					if word:
 						break
 
-				self.sentence.set_q_word(word)
+				self.s_obj.set_q_word(word)
 
-			#if self.sentence.get_q_word():
-			self.sentence.set_is_q(True)  
+			self.s_obj.set_is_q(True)  
 			self._modify_by_q_word()
 				
 		else:
@@ -191,10 +223,27 @@ class FullSentence(SentenceTemplate):
 			if not self.is_neg:
 				self._handle_positive()
 
-		if self.ignore_do or not self.sentence.get_q_word() :
+		if self.ignore_do or not self.s_obj.get_q_word() :
 			self._set_singular_verbs()	
 
 		self._process_nouns()
+		self._process_number()
 		return self
 
 
+# For other scripts to call.
+def FIBV_sentence_obj(s_obj):
+	return FillInTheBlanks_Verb(s_obj).process_s_obj().get_wrapped_sentence_obj()
+
+def FIBN_sentence_obj(s_obj):
+	return FillInTheBlanks_Noun(s_obj).process_s_obj().get_wrapped_sentence_obj()
+
+def FS_sentence_obj(s_obj):
+	return FullSentence(s_obj).process_s_obj().get_wrapped_sentence_obj()
+
+def Q_sentence_obj(s_obj):
+	return FullSentence(s_obj).process_s_obj(set_question=True).get_wrapped_sentence_obj()
+
+# To be implemented soon: 
+# def M_sentence_obj(s_obj):
+# 	return FullSentence(s_obj).process_s_obj(set_mistakes=True).get_wrapped_sentence_obj()

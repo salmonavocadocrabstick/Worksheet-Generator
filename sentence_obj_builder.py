@@ -4,10 +4,12 @@
 import subject_builder as subj_bd
 import object_decorator as obj_dc
 import wh_words as wh_word
+import verbs_gen
+
 import inflect
+
 from copy import deepcopy
 from random import randint, choice
-import verbs_gen
 
 p = inflect.engine()
 
@@ -66,15 +68,12 @@ class SentenceObject:
 
 
 	def get_subj(self):
-		#self.subj.subjects = ["Lisa", "Bill", "Bob"]
 		subj_copy = deepcopy(self.subj.subjects)
 		return p.join(subj_copy)
 
 	def get_v_type(self):
 		return self.v_type
 
-	#def set_is_neg(self, status):
-	#	self.is_neg = status
 
 
 class SentenceObjectBuilder():
@@ -122,10 +121,9 @@ class SentenceObjectBuilder():
 
 	
 def get_s_obj():
-		#s_obj = sentence_object.SentenceObjectBuilder().gen_subj().gen_verb().gen_noun().gen_quantity().gen_adjective().get_sentence_obj()
-		return SentenceObjectBuilder().gen_subj().gen_verb().gen_noun().gen_quantity().gen_adjective().gen_question_word().get_sentence_object()
+	'''Returns a sentence object. Doesn't care about grammar what not. Just plain'o words'''
+	return SentenceObjectBuilder().gen_subj().gen_verb().gen_noun().gen_quantity().gen_adjective().gen_question_word().get_sentence_object()
 
 
 
-# print(f"{test.subj.subjects[0]} {test.verb[1]} {test.num_nouns} {test.adj} {test.noun}")
 

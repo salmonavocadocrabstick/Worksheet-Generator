@@ -1,11 +1,8 @@
-# import objects_gen as obj
-# import verbs_gen as vrb
-# import subjects_gen as subj
-# import pres_keywords_gen as pre
-#import sentence_template as sentence_template
-import sentence_element_builder as sentence_object
-import sentence_grammar as sentence_grammar
-import sentence_maker as s_make
+
+# Tools for building a sentence.
+import sentence_obj_builder as s_obj_builder			 	# Creates elements
+import sentence_template as s_obj_template				# Templates for different sentence types
+import sentence_maker as s_make						# Generates the sentence.
 
 from docx import Document
 from docx.shared import Pt #for font size
@@ -21,15 +18,15 @@ def _FIB(FIB_obj, count):
 	p.add_run(f"{FIB_sentence.get_part_b()}")
 
 def Fill_In_The_Blanks_Verb(s_obj, count):
-	FIBV_obj = sentence_grammar.FIBV_sentence_obj(s_obj)
+	FIBV_obj = s_obj_template.FIBV_sentence_obj(s_obj)
 	_FIB(FIBV_obj, count)
 
 def Fill_In_The_Blanks_Noun(s_obj, count):
-	FIBV_obj = sentence_grammar.FIBN_sentence_obj(s_obj)
+	FIBV_obj = s_obj_template.FIBN_sentence_obj(s_obj)
 	_FIB(FIBV_obj, count)
 
 def Answering_Question(s_obj, count):
-	AQ_obj = sentence_grammar.Q_sentence_obj(s_obj)
+	AQ_obj = s_obj_template.Q_sentence_obj(s_obj)
 	AQ_sentence = s_make.generate_sentence_by_type(AQ_obj)
 	print(AQ_sentence.get_full_sentence())
 
@@ -37,13 +34,10 @@ def Answering_Question(s_obj, count):
 	document.add_paragraph("________________________________________________")
 
 def Finding_Mistakes(s_obj, count):
-	FM_obj = sentence_grammar.FS_sentence_obj(s_obj)
-	FM_sentence = s_make.generate_sentence_by_type(FM_objects)
-	print(AQ_sentence.get_full_sentence())
-	document.add_paragraph(f"{count}. {AQ_sentence.get_full_sentence()}", style = "Normal")
+	pass
 
 def Rearrange_Sentence(s_obj, count):
-	RS_obj = sentence_grammar.FS_sentence_obj(s_obj)
+	RS_obj = s_obj_template.FS_sentence_obj(s_obj)
 	RS_sentence = s_make.generate_sentence_by_type(RS_obj)
 	print(RS_sentence.get_full_sentence())
 
@@ -70,7 +64,7 @@ if __name__ == "__main__":
 	doc_instru = instruction[0]
 
 
-	num_questions = 50
+	num_questions = 15
 
 
 	document = Document()
@@ -96,12 +90,13 @@ if __name__ == "__main__":
 
 
 	for x in range(1, num_questions+1):
-		s_obj = sentence_object.get_s_obj()
+		s_obj = s_obj_builder.get_s_obj()
 
 		### Run the function here ###
 		Answering_Question(s_obj, x)
-		Rearrange_Sentence(s_obj, x)
-		Fill_In_The_Blanks_Noun(s_obj, x)
+			#Rearrange_Sentence(s_obj, x)
+			#Fill_In_The_Blanks_Noun(s_obj, x)
+			#Fill_In_The_Blanks_Verb(s_obj, x)
 		
 
 	document.add_page_break()
