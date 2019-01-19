@@ -83,11 +83,11 @@ class SentenceObjectBuilder():
 	def gen_subj(self):
 		roll_dice = randint(1, 49)
 		if roll_dice % 2 == 0:
-			self.sentence.subj = subj_bd.PronounBuilder()
+			self.sentence.subj = subj_bd.Pronoun()
 			self.sentence.num_subj = self.sentence.subj.get_num_subj()
 		else:
 			self.sentence.num_subj = randint(1,3)	#Unlikely needing more than 3 people, like, ever...
-			self.sentence.subj = subj_bd.NameBuilder(self.sentence.num_subj)
+			self.sentence.subj = subj_bd.Name(self.sentence.num_subj)
 		return self
 
 	def gen_verb(self):

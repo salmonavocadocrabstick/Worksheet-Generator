@@ -6,10 +6,13 @@ def verb():
 
 	verbs = {
 	
-	"food":["eat", "bite", "chew", "munch", "cut", "lick"],
-	"drink" : ["sip", "drink", "slurp"],
-	"appliance": [ "sit on", "carry" , "break", "fix", "repair", "use", "touch" , "tap"],
-	"clothes" : ["wear", "carry", "make", "hold", "put on"]
+	"food":				["have", "eat", "enjoy", "chew", "munch", "cut", "cook", "stir"],
+	"drink":			["have", "sip", "drink", "slurp", "make"],
+	"appliance":		["have", "sit on", "carry" , "break", "fix", "repair", "use", "touch" , "buy"],
+	"clothes" : 		["have", "wear", "carry", "make", "hold", "put on", "sew", "knit", "fold"],
+	"activities":		["go to", "have"],
+	"raw_mats":			["have", "dig", "harvest", "buy", "scoop", "mix"]
+	
 	}
 
 	key = choice(list(verbs))

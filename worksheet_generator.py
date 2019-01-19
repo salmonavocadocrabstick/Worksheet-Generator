@@ -93,10 +93,10 @@ if __name__ == "__main__":
 		s_obj = s_obj_builder.get_s_obj()
 
 		### Run the function here ###
-		Answering_Question(s_obj, x)
+		#Answering_Question(s_obj, x)
 			#Rearrange_Sentence(s_obj, x)
 			#Fill_In_The_Blanks_Noun(s_obj, x)
-			#Fill_In_The_Blanks_Verb(s_obj, x)
+		Fill_In_The_Blanks_Verb(s_obj, x)
 		
 
 	document.add_page_break()

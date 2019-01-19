@@ -1,19 +1,14 @@
-berry
-blackberry
-blueberry
-dragon fruit
-durian
-grape
-grapefruit
-guava
-honeydew
-kiwi
-kumquat
-lemon
-lime
-lychee
-pineapple
-plum
-pomegranate
-prune
-tangerine
+berry juice
+Coca-cola
+soft drink
+milk
+chocolate milk
+strawberry milk
+water
+bubble tea
+milk tea
+lemon tea
+lemon water
+coffee
+Sprite
+soup

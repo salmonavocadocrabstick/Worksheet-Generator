@@ -3,7 +3,7 @@
 # Stephanie Leung
 import sentence_obj_builder as s_obj
 from copy import deepcopy
-from random import randint
+from random import randint, choice
 import wh_words as wh_word
 import inflect
 p = inflect.engine() #use to set grammar rules
@@ -33,8 +33,33 @@ class SentenceTemplate:
 	def process_s_obj(self, set_true = None):
 		raise NotImplementedError
 
+	def _handle_uncountable_nouns(self):
+		'''check if nouns are uncountable'''
+		# Two conditions for now
+		# 1) Is a drink
+		# 2) Matches the items on the uncountable list.
+		#if self.s_obj.get_v_type() in ["drink", "raw_mats"]:
+		drink_counters = ["cup of ", "bottle of ", "jar of "]
+		raw_mats_counters = ["box of ", "cup of ", "bowl of ", "pile of "]
+
+		if self.s_obj.get_v_type() == "drink":
+			#print("DRINK FOUND, uncountable!")
+			noun_with_counter = choice(drink_counters) + self.s_obj.get_noun()
+			self.s_obj.set_noun(noun_with_counter)
+			#print(self.s_obj.get_noun())
+
+		elif self.s_obj.get_v_type() == "raw_mats":
+			#print("RAW MATT FOUND!")
+			noun_with_counter = choice(raw_mats_counters) + self.s_obj.get_noun()
+			self.s_obj.set_noun(noun_with_counter)
+			#print(self.s_obj.get_noun())
+
+
 	def _process_nouns(self):
 		'''Pluralize/Singularize Nouns. Always run this before running _process_number()'''
+		if self.s_obj.get_v_type() in ["drink", "raw_mats"]:
+			self._handle_uncountable_nouns()
+
 		self.s_obj.set_noun(p.plural(self.s_obj.get_noun(), self.s_obj.get_num_nouns()))
 
 	def _set_singular_verbs(self):
@@ -112,6 +137,7 @@ class SentenceTemplate:
 	def _add_bracket(self, word):
 		'''Marks target word for fill in the blanks. Only use for fill in the blank type questions.'''
 		return f"!({word})"
+
 
 	def set_blank(self, target):
 		raise "Subclass should implement!"

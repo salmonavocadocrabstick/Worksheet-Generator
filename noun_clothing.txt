@@ -1,5 +1,5 @@
 skirt
-swim suit
+cardigan
 jumper
 hoodie
 vest
@@ -9,9 +9,12 @@ polo shirt
 dress
 hawaiian shirt
 mittens
-socks
+pair of socks
+pair of trousers
+pair of glasses
 trench coat
 winter coat
+T-shirt
 straw hat
 cap
 scarf
