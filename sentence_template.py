@@ -39,7 +39,8 @@ class SentenceTemplate:
 		self.sentence.set_verb(p.plural(pos_neg, self.sentence.get_num_nouns()))
 
 		if self.sentence.get_num_nouns() == 1:
-			self.sentence.set_num_nouns("a")
+			article = p.an(self.sentence.get_noun())
+			self.sentence.set_num_nouns(article[0])
 
 		elif self.sentence.get_num_nouns() > 1 or self.sentence.get_num_nouns() == 0:
 			self.sentence.set_num_nouns("any")
@@ -111,14 +112,14 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 			if self.sentence.get_q_word():
 				self.sentence.set_is_q(True)  
 				self._modify_by_q_word()
-				
+		
+		# Not a question type, roll to see if its positive / negative	
 		else:
 			self._roll_for_negative()
 			if not self.is_neg:
 				self._handle_positive()
 
-		# if self.ignore_do or not self.sentence.get_q_word() :
-		# 	self._set_singular_verbs()	
+		# Verb form, thus change "is/am/are" to "be"
 		if self.sentence.get_verb() in ["are", "is", "is not", "are not"]:
 			bracketed_word = self._add_bracket("be")
 			self.sentence.set_verb(bracketed_word)

@@ -13,40 +13,48 @@ from docx.enum.style import WD_STYLE_TYPE
 from datetime import date
 
 
-def _FIB(FIB_obj):
+def _FIB(FIB_obj, count):
 	FIB_sentence = s_make.generate_sentence_by_type(FIB_obj)
 	print(FIB_sentence.get_full_sentence())
-	#Careful: x is accessed without explicit definition here...
-	p = document.add_paragraph(f"{x}. {FIB_sentence.get_part_a()}", style = "Normal")
+	p = document.add_paragraph(f"{count}. {FIB_sentence.get_part_a()}", style = "Normal")
 	p.add_run("______________").font.name = "Comic Sans"
 	p.add_run(f"{FIB_sentence.get_part_b()}")
 
-def Fill_In_The_Blanks_Verbs(s_obj):
+def Fill_In_The_Blanks_Verb(s_obj, count):
 	FIBV_obj = sentence_grammar.FIBV_sentence_obj(s_obj)
-	_FIB(FIBV_obj)
+	_FIB(FIBV_obj, count)
 
-def Fill_In_The_Blanks_Nouns(s_obj):
+def Fill_In_The_Blanks_Noun(s_obj, count):
 	FIBV_obj = sentence_grammar.FIBN_sentence_obj(s_obj)
-	_FIB(FIBV_obj)
+	_FIB(FIBV_obj, count)
 
-def Answering_Questions(s_obj):
+def Answering_Question(s_obj, count):
 	AQ_obj = sentence_grammar.Q_sentence_obj(s_obj)
 	AQ_sentence = s_make.generate_sentence_by_type(AQ_obj)
 	print(AQ_sentence.get_full_sentence())
 
-	## Getting a list of shuffled words, just pop them one by one in the for loop!.
-
-	document.add_paragraph(f"{x}. {AQ_sentence.get_full_sentence()}", style = "Normal")
+	document.add_paragraph(f"{count}. {AQ_sentence.get_full_sentence()}", style = "Normal")
 	document.add_paragraph("________________________________________________")
 
-def Finding_Mistakes(s_obj):
-	FM_obj = sentence_grammar.Q_sentence_obj(s_obj)
+def Finding_Mistakes(s_obj, count):
+	FM_obj = sentence_grammar.FS_sentence_obj(s_obj)
 	FM_sentence = s_make.generate_sentence_by_type(FM_objects)
 	print(AQ_sentence.get_full_sentence())
-	document.add_paragraph(f"{x}. {AQ_sentence.get_full_sentence()}", style = "Normal")
+	document.add_paragraph(f"{count}. {AQ_sentence.get_full_sentence()}", style = "Normal")
 
-def Rearrage_Sentences(s_obj):
-	pass
+def Rearrange_Sentence(s_obj, count):
+	RS_obj = sentence_grammar.FS_sentence_obj(s_obj)
+	RS_sentence = s_make.generate_sentence_by_type(RS_obj)
+	print(RS_sentence.get_full_sentence())
+
+	## Getting a list of shuffled words, just pop them one by one in the for loop!.
+	list_of_words = RS_sentence.get_jumboed_sentence()
+	slash = " / "
+	slash = slash.join(list_of_words)
+
+	document.add_paragraph(f"{count}. {slash}", style = "Normal")
+	document.add_paragraph("________________________________________________")
+
 
 
 if __name__ == "__main__":
@@ -91,7 +99,9 @@ if __name__ == "__main__":
 		s_obj = sentence_object.get_s_obj()
 
 		### Run the function here ###
-		Answering_Questions(s_obj)
+		Answering_Question(s_obj, x)
+		Rearrange_Sentence(s_obj, x)
+		Fill_In_The_Blanks_Noun(s_obj, x)
 		
 
 	document.add_page_break()

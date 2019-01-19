@@ -59,11 +59,11 @@ class QuestionConstruction(SentenceConstruction):
 		if wrapped.sentence.get_q_word() in ["do", "does", "can"]:
 			if DEBUG:
 				print("Question - 4 ")
-			self.full_sentence =  f"{wrapped.sentence.get_q_word()} {wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {wrapped.sentence.get_num_nouns()} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}? "
+			self.full_sentence =  f"{wrapped.sentence.get_q_word()} {wrapped.sentence.get_subj()} {wrapped.sentence.get_verb()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}?"
 		elif wrapped.sentence.get_q_word() == "there":
 			if DEBUG:
 				print("Question - 5 ")
-			self.full_sentence =  f"{wrapped.sentence.get_verb()} {wrapped.sentence.get_q_word()} {wrapped.sentence.get_num_nouns()} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}?"
+			self.full_sentence =  f"{wrapped.sentence.get_verb()} {wrapped.sentence.get_q_word()} {p.number_to_words(wrapped.sentence.get_num_nouns())} {wrapped.sentence.adj} {wrapped.sentence.get_noun()}?"
 
 class StatementConstruction(SentenceConstruction):
 	def __init__(self, wrapped):

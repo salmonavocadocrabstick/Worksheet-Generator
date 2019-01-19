@@ -80,6 +80,17 @@ box = "box"
 # print(FIBN)
 # print(FIBV)
 
-str1 = "there !(be) split thing into asldfjk"
-list1 = str1.split(" ")
-print(list1)
+# str1 = "there !(be) split thing into asldfjk"
+# list1 = str1.split(" ")
+# print(list1)
+
+cat = "cat"
+o = "dog"
+
+print(p.an(cat))
+print(p.a(cat))
+print(p.an(o))
+print(p.a(o))
+
+i = p.a(o).split(" ")
+print(i[0])
