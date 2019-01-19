@@ -6,6 +6,7 @@ from copy import deepcopy
 from random import randint, choice
 import wh_words as wh_word
 import inflect
+import pres_keywords_gen as pres_keyword
 p = inflect.engine() #use to set grammar rules
 
 
@@ -20,15 +21,25 @@ p = inflect.engine() #use to set grammar rules
 # Takes in sentence object for further adjustments
 class SentenceTemplate:
 
-	def __init__(self, s_obj):
+	def __init__(self, s_obj, tense="present"):
 		self.s_obj = deepcopy(s_obj)
 		self.is_neg = False
 		self.is_question = False
 		self.ignore_do = False
+		self.tense = tense
+		self.keyword = ""
+
+	def get_keyword(self):
+		if self.keyword:
+			return self.keyword
 
 	def set_tense(self):
 		'''To be implemented. Planning to make Past Tense/Future tense practices'''
 		pass
+
+	def _gen_keyword_by_tense(self):
+		if self.tense == "present":
+			self.keyword = pres_keyword.present_tense_keyword()
 
 	def process_s_obj(self, set_true = None):
 		raise NotImplementedError
@@ -182,6 +193,7 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 
 		self._process_nouns()
 		self._process_number()
+		self._gen_keyword_by_tense()
 		return self
 
 class FillInTheBlanks_Noun(SentenceTemplate):
@@ -214,6 +226,7 @@ class FillInTheBlanks_Noun(SentenceTemplate):
 		self.s_obj.set_noun(bracketed_word)
 
 		self._process_number()
+		self._gen_keyword_by_tense()
 		return self
 
 
@@ -254,6 +267,7 @@ class FullSentence(SentenceTemplate):
 
 		self._process_nouns()
 		self._process_number()
+		self._gen_keyword_by_tense()
 		return self
 
 

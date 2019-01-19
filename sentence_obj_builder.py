@@ -24,6 +24,7 @@ class SentenceObject:
 		self.noun = noun
 		self.q_word = q_word
 		self.is_q = False
+		self.tense = "present"
 
 
 	def get_noun(self):
