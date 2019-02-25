@@ -6,8 +6,8 @@ from numpy.random import choice
 
 def get_question_word():
 	q_word_choices = ["does","there", "can"]
-	return choice(q_word_choices,  p=[0.6, 0.2, 0.2])
-
+	return choice(q_word_choices,  p=[0.6, 0.3, 0.1])
+	#return choice(["this", "that"])
 
 
 # Notes:

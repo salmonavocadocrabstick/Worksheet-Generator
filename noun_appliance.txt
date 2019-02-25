@@ -43,9 +43,6 @@ flatscreen TV
 food processor
 freezer
 furnace
-garage door
-garbage disposal
-GPS
 grill
 hair clippers
 hair dryer
@@ -56,7 +53,6 @@ hot plate
 humidifier
 ice cream maker
 iron
-juice
 kerosene heater
 lamp
 lantern
@@ -73,7 +69,6 @@ percolator
 pressure cooker
 printer
 radio
-range
 record player
 refrigerator
 rotisserie
@@ -86,19 +81,9 @@ stereo
 stove
 telephone
 television
-timer
 toaster
-toaster oven
-torch
-trash compactor
-trimmer
 TV
 vacuum cleaner
 vaporizer
-VCR
-video camera
-video game machine
-waffle iron
-walkie-talkie
 washing machine
 watch

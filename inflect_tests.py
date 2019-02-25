@@ -92,6 +92,9 @@ box = "box"
 # else:
 # 	print(x)
 
-x = "cup of coffee"
-y = 5
-print(p.plural(x, y))
+# x = "cup of coffee"
+# y = 5
+# print(p.plural(x, y))
+
+x = "this"
+print(p.plural(x, 5))

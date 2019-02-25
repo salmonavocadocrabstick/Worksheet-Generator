@@ -10,7 +10,7 @@ from random import shuffle
 import inflect
 p = inflect.engine()
 
-DEBUG = False
+DEBUG = True
 
 class SentenceConstruction():
 	def __init__(self):
@@ -57,11 +57,11 @@ class QuestionConstruction(SentenceConstruction):
 		if w_obj.get_q_word() in ["do", "does", "can"]:
 			if DEBUG:
 				print("Question - 4 ")
-			self.full_sentence =  f"{w_obj.get_q_word()} {w_obj.get_subj()} {w_obj.get_verb()} {w_obj.get_num_nouns()} {w_obj.adj} {w_obj.get_noun()} {wrapped.get_keyword()}?"
+			self.full_sentence =  f"{w_obj.get_q_word()} {w_obj.get_subj()} {w_obj.get_verb()} {w_obj.get_num_nouns()}{wrapped.get_adjective()} {w_obj.get_noun()}{wrapped.get_keyword()}?"
 		elif w_obj.get_q_word() == "there":
 			if DEBUG:
 				print("Question - 5 ")
-			self.full_sentence =  f"{w_obj.get_verb()} {w_obj.get_q_word()} {w_obj.get_num_nouns()} {w_obj.adj} {w_obj.get_noun()} {wrapped.get_keyword()}?"
+			self.full_sentence =  f"{w_obj.get_verb()} {w_obj.get_q_word()} {w_obj.get_num_nouns()}{wrapped.get_adjective()} {w_obj.get_noun()}{wrapped.get_keyword()}?"
 
 class StatementConstruction(SentenceConstruction):
 	def __init__(self, wrapped):
@@ -71,23 +71,23 @@ class StatementConstruction(SentenceConstruction):
 			# There are ..
 			if DEBUG:
 				print("Statement - 3 ")
-			self.full_sentence = f"{w_obj.get_q_word()} {w_obj.get_verb()} {w_obj.get_num_nouns()} {w_obj.adj} {w_obj.get_noun()} {wrapped.get_keyword()}."
+			self.full_sentence = f"{w_obj.get_q_word()} {w_obj.get_verb()} {w_obj.get_num_nouns()}{wrapped.get_adjective()} {w_obj.get_noun()}{wrapped.get_keyword()}."
 		else:
 			if wrapped.ignore_do:
 				if DEBUG:
 					print("Statement - 1 ")
 				# He eats 5 potatoes
-				self.full_sentence = f"{w_obj.get_subj()} {w_obj.get_verb()} {w_obj.get_num_nouns()} {w_obj.adj} {w_obj.get_noun()} {wrapped.get_keyword()}."
+				self.full_sentence = f"{w_obj.get_subj()} {w_obj.get_verb()} {w_obj.get_num_nouns()}{wrapped.get_adjective()} {w_obj.get_noun()}{wrapped.get_keyword()}."
 			elif w_obj.get_q_word():
 				if DEBUG:
 					print("Statement - 2a ")
 				# He can eat 5 potatoes
-				self.full_sentence = f"{w_obj.get_subj()} {w_obj.get_q_word()} {w_obj.get_verb()} {w_obj.get_num_nouns()} {w_obj.adj} {w_obj.get_noun()} {wrapped.get_keyword()}."
+				self.full_sentence = f"{w_obj.get_subj()} {w_obj.get_q_word()} {w_obj.get_verb()} {w_obj.get_num_nouns()}{wrapped.get_adjective()} {w_obj.get_noun()}{wrapped.get_keyword()}."
 			else:
 				if DEBUG:
 					print("Statement - 2b ")
 				# He eats 5 potatoes
-				self.full_sentence = f"{w_obj.get_subj()} {w_obj.get_verb()} {w_obj.get_num_nouns()} {w_obj.adj} {w_obj.get_noun()} {wrapped.get_keyword()}."
+				self.full_sentence = f"{w_obj.get_subj()} {w_obj.get_verb()} {w_obj.get_num_nouns()}{wrapped.get_adjective()} {w_obj.get_noun()}{wrapped.get_keyword()}."
 
 
 def generate_sentence_by_type(s_wrapped_obj):

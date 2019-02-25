@@ -28,17 +28,34 @@ class SentenceTemplate:
 		self.ignore_do = False
 		self.tense = tense
 		self.keyword = ""
+		self.allow_keyword = True
+		self.allow_adjective = True
 
 	def get_keyword(self):
-		if self.keyword:
-			return self.keyword
+		if self.allow_keyword and self.keyword:
+			return f" {self.keyword}"
+		else:
+			return ""
+
+	def get_adjective(self):
+		if self.allow_adjective and self.s_obj.get_adj():
+			return f" {self.s_obj.get_adj()}"
+		else:
+			return ""
+
+	def get_allow_keyword(self):
+		return self.allow_keyword
+
+	def get_allow_adjective(self):
+		return self.allow_adjective
 
 	def set_tense(self):
 		'''To be implemented. Planning to make Past Tense/Future tense practices'''
 		pass
 
 	def _gen_keyword_by_tense(self):
-		if self.tense == "present":
+		# 1/19/2018: check out NodeBox for past tense
+		if self.tense == "present" and self.allow_keyword:
 			self.keyword = pres_keyword.present_tense_keyword()
 
 	def process_s_obj(self, set_true = None):
@@ -145,6 +162,24 @@ class SentenceTemplate:
 				article = p.an(self.s_obj.get_noun())
 				self.s_obj.set_num_nouns(article[0])
 
+	def _allow_keyword(self):
+		'''Keyword for tenses may be removed'''
+		if self.is_question and self.s_obj.get_q_word() in ["there"]:
+			self.allow_keyword = False
+
+	def _allow_adjectives_and_counters(self):
+		'''Adjectives do not have to be in every single sentences. Adjectives removed with this function'''
+		allow = randint(0,1)
+		if not allow:
+			self.allow_adjective = False
+
+		allow = randint(0,1)
+		if not allow:
+			self.allow_counter = False
+			# To do: Not fully implemented yet
+
+
+
 	def _add_bracket(self, word):
 		'''Marks target word for fill in the blanks. Only use for fill in the blank type questions.'''
 		return f"!({word})"
@@ -187,6 +222,7 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 		if self.s_obj.get_verb() in ["are", "is", "is not", "are not"]:
 			bracketed_word = self._add_bracket("be")
 			self.s_obj.set_verb(bracketed_word)
+
 		else:
 			bracketed_word = self._add_bracket(self.s_obj.get_verb())
 			self.s_obj.set_verb(bracketed_word)
@@ -194,6 +230,8 @@ class FillInTheBlanks_Verb(SentenceTemplate):
 		self._process_nouns()
 		self._process_number()
 		self._gen_keyword_by_tense()
+		self._allow_keyword()
+		self._allow_adjectives_and_counters()
 		return self
 
 class FillInTheBlanks_Noun(SentenceTemplate):
@@ -227,6 +265,8 @@ class FillInTheBlanks_Noun(SentenceTemplate):
 
 		self._process_number()
 		self._gen_keyword_by_tense()
+		self._allow_keyword()
+		self._allow_adjectives_and_counters()
 		return self
 
 
@@ -268,6 +308,8 @@ class FullSentence(SentenceTemplate):
 		self._process_nouns()
 		self._process_number()
 		self._gen_keyword_by_tense()
+		self._allow_keyword()
+		self._allow_adjectives_and_counters()
 		return self
 
 
